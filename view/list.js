@@ -4,6 +4,7 @@ import Filters from '../datagrid/filters'
 import Pagination from '../datagrid/pagination'
 import DatagridActions from 'react-mobx-admin/components/common/datagrid/actions'
 import { observer } from 'mobx-react'
+import { DropdownButton, MenuItem, Button, ButtonGroup } from 'react-bootstrap'
 
 
 const BStrapListView = ({
@@ -48,14 +49,15 @@ const BStrapListView = ({
     <div className="card">
       <div className="card-block">
         <div className="pull-right">
-          <Filters.Apply state={state} label={'apply filters'} apply={()=>state.applyFilters(cv)} />
-          {batchActions && (<DatagridActions state={state} actions={batchActions} />)}
-          {filters && (
-            <Filters.Dropdown state={state} title="addfilter" filters={filters}
-              showFilter={(filter)=>state.showFilter(cv, filter)} />
-          )}
-          {onAddClicked && <button type="button" className="btn btn-primary"
-            onClick={()=>onAddClicked(state)}>{cv.addText || '+'}</button>}
+          <ButtonGroup>
+            <Filters.Apply state={state} label={'apply filters'} apply={()=>state.applyFilters(cv)} />
+            {batchActions && (<DatagridActions state={state} actions={batchActions} />)}
+            {filters && (
+              <Filters.Dropdown state={state} title="addfilter" filters={filters}
+                showFilter={(filter)=>state.showFilter(cv, filter)} />
+            )}
+            {onAddClicked && <Button onClick={()=>onAddClicked(state)}>{cv.addText || '+'}</Button>}
+          </ButtonGroup>
         </div>
         {cv.title ? <h4 className="card-title">{cv.title}</h4> : null}
       </div>

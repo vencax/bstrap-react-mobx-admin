@@ -1,6 +1,6 @@
 import React from 'react'
 import { observer } from 'mobx-react'
-import { DropdownButton, MenuItem } from 'react-bootstrap'
+import { DropdownButton, MenuItem, Button, InputGroup } from 'react-bootstrap'
 import FilterBases from 'react-mobx-admin/components/common/datagrid/filters'
 
 // dropdown with available filters
@@ -15,7 +15,7 @@ class Dropdown extends FilterBases.DropdownBase {
 
   renderMenu(state, filters) {
     return (
-      <DropdownButton title="filters" id="bg-nested-dropdown">
+      <DropdownButton title="filters" pullRight id="bg-nested-dropdown">
         {this.createItems(state, filters)}
       </DropdownButton>
     )
@@ -39,19 +39,14 @@ class Controls extends FilterBases.ControlsBase {
 
   renderControl(filter, name, state, onHide, onUpdateValue) {
 
-    const deleteLink = (
-      <button onClick={onHide}>
-        x
-      </button>
-    )
-
     return (
       <div className={`form-field form-group filter-${name}`} style={styles.chip} key={name}>
-        <div style={{ float: 'left' }}>
-          <div>{filter.title}</div>
-          <filter.component record={state.currentView.filters} attr={name} onChange={onUpdateValue} />
-        </div>
-        {deleteLink}
+        <InputGroup>
+          <Button onClick={onHide} style={{float: 'left'}}>x</Button>
+          <div style={{float: 'right'}}>
+            <filter.component record={state.currentView.filters} attr={name} onChange={onUpdateValue} />
+          </div>
+        </InputGroup>
       </div>
     )
   }
@@ -68,7 +63,7 @@ class Controls extends FilterBases.ControlsBase {
 
 const Apply = observer(({ apply, label, state }) => {
   const show = state.currentView.filters.size > 0 && ! state.filtersApplied
-  return show && (<button onClick={apply}>{label}</button>)
+  return show && (<Button onClick={apply}>{label}</Button>)
 })
 
 export default { Dropdown, Controls, Apply }
