@@ -8,8 +8,14 @@ const SubmitButton = observer(({ errors, text, onSubmit }) => (
 ))
 
 const GlobalErrors = observer(({errors}) => {
-  return errors ? (
-    <ul>{errors.map((e, idx) => (<li key={idx} style={{color: 'red'}}>{e}</li>))}</ul>
+  return errors.has('_global') ? (
+    <ul>
+    {
+      errors.get('_global').map((e, idx) => (
+        <li key={idx} style={{color: 'red'}}>{e}</li>)
+      )
+    }
+    </ul>
   ) : null
 })
 
@@ -51,7 +57,7 @@ const BStrapEditView = observer( ({state, children}) => {
 
       <div className="card-block">
         <form>{children}</form>
-        <GlobalErrors errors={cv.errors.get('_global')} />
+        <GlobalErrors errors={cv.errors} />
       </div>
 
       <div className="card-block">
