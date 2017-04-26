@@ -69,7 +69,10 @@ const BStrapListView = ({
           listActions={listActions}
           onSort={(field, dir)=>state.updateSort(cv, field, dir)} sortstate={cv}
           onRowSelection={onSelectionChange} isSelected={isSelected}
-          allSelected={allSelected} />
+          allSelected={allSelected} filters={filters}
+          updateFilterVal={(name, val) => state.updateFilterValue(cv, name, val)}
+          applyFilters={()=>state.applyFilters(cv)}
+          hideFilter={(f)=>state.hideFilter(cv, f)}/>
       </div>
       { pagination }
     </div>

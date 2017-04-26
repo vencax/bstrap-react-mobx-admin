@@ -12,7 +12,7 @@ const TextInput = ({attr, record, label, onChange, errors, ...rest}) => {
   const validationState = errorText ? 'error' : 'success'
   const value = record.get(attr)
   return (
-    <FormGroup controlId={attr} validationState={validationState}>
+    <FormGroup controlId={attr} validationState={errors ? validationState : undefined}>
       <ControlLabel>{label}</ControlLabel>
       <FormControl componentClass="input" name={attr} value={value || ''}
         onChange={handleChange} {...rest} />

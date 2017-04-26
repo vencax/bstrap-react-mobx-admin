@@ -1,6 +1,7 @@
 import React from 'react'
 import { observer } from 'mobx-react'
-import { Checkbox } from 'react-bootstrap'
+import { Checkbox, InputGroup, Button } from 'react-bootstrap'
+import _ from 'lodash'
 import HeaderBase from 'react-mobx-admin/components/common/datagrid/header'
 import * as TUtils from 'react-mobx-admin/components/common/datagrid/table'
 
@@ -13,13 +14,35 @@ class BStrapHeader extends HeaderBase {
 
 const BStrapDatagrid = ({
   state, attrs, fields, titles, rowId, isSelected,
-  onRowSelection, onSort, sortstate, listActions, allSelected
+  onRowSelection, onSort, sortstate, listActions, allSelected,
+  filters, updateFilterVal, applyFilters, hideFilter
 }) => {
 
   function _renderHeader(name, label, sort, onSort) {
+    let filtername = null
+    const filter = filters && _.find(filters, (v, k) => {
+      filtername = k
+      return k.indexOf(name) >= 0
+    })
     return (
       <th key={`th_${name}`}>
         <BStrapHeader sort={sort} name={name} label={label} onSort={onSort} />
+        {filter ? (
+          <InputGroup>
+            {filtername in state.appliedfilters ?
+              <Button onClick={()=>hideFilter(filtername)} style={{float: 'left'}}>x</Button>
+            : null}
+            <div style={{float: 'right'}}>
+              <filter.component record={state.filters}
+                attr={filtername} onChange={updateFilterVal} onKeyPress={(e) =>{
+                  if (e.charCode === 13) {
+                    e.preventDefault()
+                    applyFilters()
+                  }
+                }} />
+            </div>
+          </InputGroup>
+        ) : null}
       </th>
     )
   }
