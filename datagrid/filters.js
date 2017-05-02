@@ -44,7 +44,7 @@ class Controls extends FilterBases.ControlsBase {
         <InputGroup>
           <Button onClick={onHide} style={{float: 'left'}}>x</Button>
           <div style={{float: 'right'}}>
-            <filter.component record={state.currentView.filters} attr={name} onChange={onUpdateValue} />
+            <filter.component record={state.cv.filters} attr={name} onChange={onUpdateValue} />
           </div>
         </InputGroup>
       </div>
@@ -62,7 +62,7 @@ class Controls extends FilterBases.ControlsBase {
 }
 
 const Apply = observer(({ apply, label, state }) => {
-  const show = state.currentView.filters.size > 0 && ! state.filtersApplied
+  const show = state.cv.filters.size > 0 && ! state.filtersApplied
   return show && (<Button onClick={apply}>{label}</Button>)
 })
 

@@ -8,19 +8,19 @@ import { DropdownButton, MenuItem, Button, ButtonGroup } from 'react-bootstrap'
 
 
 const BStrapListView = ({
-  state, onAddClicked, fields, filters, listActions, batchActions, renderOuter
+  store, onAddClicked, fields, filters, listActions, batchActions, renderOuter
 }) => {
 
-  const cv = state.currentView
+  const cv = store.cv
 
   function onSelectionChange(selection) {
     if(selection === 'all') {
-      state.selectAll(cv)
+      store.selectAll(cv)
     } else if(selection === []) {
-      state.updateSelection(cv, [])
+      store.updateSelection(cv, [])
     } else { // we have receive index of selected item
       // so toggle the selection of da index
-      state.toggleIndex(cv, selection)
+      store.toggleIndex(cv, selection)
     }
   }
 
@@ -31,16 +31,16 @@ const BStrapListView = ({
   const allSelected = cv.selection.length > 0 && cv.selection.length === cv.items.length
 
   const filtersRender = (filters && ! cv.loading) ? (
-    <Filters.Controls state={state}
-      hideFilter={(filter)=>state.hideFilter(cv, filter)} filters={filters} />
+    <Filters.Controls state={store}
+      hideFilter={store.hideFilter.bind(store)} filters={filters} />
   ) : null
   const pagination = (
     <div className="card-block">
       <div className="pull-right">
-        <Pagination.Pagination state={state} onChange={(page)=>state.updatePage(cv, page)} />
+        <Pagination.Pagination store={store} onChange={store.updatePage.bind(store)} />
       </div>
       <div className="pull-left">
-        <Pagination.PageInfo info={cv} />
+        <Pagination.PageInfo info={cv} query={store.router.queryParams} />
       </div>
     </div>
   )
@@ -50,13 +50,13 @@ const BStrapListView = ({
       <div className="card-block">
         <div className="pull-right">
           <ButtonGroup>
-            <Filters.Apply state={state} label={'apply filters'} apply={()=>state.applyFilters(cv)} />
-            {batchActions && (<DatagridActions state={state} actions={batchActions} />)}
+            <Filters.Apply state={store} label={'apply filters'} apply={store.applyFilters.bind(store)} />
+            {batchActions && (<DatagridActions state={store} actions={batchActions} />)}
             {filters && (
-              <Filters.Dropdown state={state} title="addfilter" filters={filters}
-                showFilter={(filter)=>state.showFilter(cv, filter)} />
+              <Filters.Dropdown state={store} title="addfilter" filters={filters}
+                showFilter={store.showFilter.bind(store)} />
             )}
-            {onAddClicked && <Button onClick={()=>onAddClicked(state)}>{cv.addText || '+'}</Button>}
+            {onAddClicked && <Button onClick={()=>onAddClicked(store)}>{cv.addText || '+'}</Button>}
           </ButtonGroup>
         </div>
         {cv.title ? <h4 className="card-title">{cv.title}</h4> : null}
@@ -67,12 +67,15 @@ const BStrapListView = ({
           titles={cv.headertitles} fields={fields}
           rowId={(row)=>row[cv.pkName]}
           listActions={listActions}
-          onSort={(field, dir)=>state.updateSort(cv, field, dir)} sortstate={cv}
+          onSort={store.updateSort.bind(store)} sortstate={cv}
           onRowSelection={onSelectionChange} isSelected={isSelected}
           allSelected={allSelected} filters={filters}
-          updateFilterVal={(name, val) => state.updateFilterValue(cv, name, val)}
-          applyFilters={()=>state.applyFilters(cv)}
-          hideFilter={(f)=>state.hideFilter(cv, f)}/>
+          updateFilterVal={store.updateFilterValue.bind(store)}
+          applyFilters={store.applyFilters.bind(store)}
+          hideFilter={store.hideFilter.bind(store)}
+          isFilterApplied={(filtername)=>{
+            return filtername in store.appliedFilters
+          }}/>
       </div>
       { pagination }
     </div>
@@ -82,7 +85,7 @@ const BStrapListView = ({
 }
 
 BStrapListView.propTypes = {
-  state: React.PropTypes.object.isRequired,
+  store: React.PropTypes.object.isRequired,
   renderOuter: React.PropTypes.func
 }
 export default observer(BStrapListView)

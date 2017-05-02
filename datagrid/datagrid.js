@@ -15,7 +15,7 @@ class BStrapHeader extends HeaderBase {
 const BStrapDatagrid = ({
   state, attrs, fields, titles, rowId, isSelected,
   onRowSelection, onSort, sortstate, listActions, allSelected,
-  filters, updateFilterVal, applyFilters, hideFilter
+  filters, updateFilterVal, applyFilters, hideFilter, isFilterApplied
 }) => {
 
   function _renderHeader(name, label, sort, onSort) {
@@ -29,7 +29,7 @@ const BStrapDatagrid = ({
         <BStrapHeader sort={sort} name={name} label={label} onSort={onSort} />
         {filter ? (
           <InputGroup>
-            {filtername in state.appliedfilters ?
+            {isFilterApplied(filtername) ?
               <Button onClick={()=>hideFilter(filtername)} style={{float: 'left'}}>x</Button>
             : null}
             <div style={{float: 'right'}}>

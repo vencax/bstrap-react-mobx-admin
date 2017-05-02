@@ -1,9 +1,10 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Navbar, Nav, NavItem } from 'react-bootstrap'
+import views from '../routeconfig'
 
 
-const AppMenu = ({state}) => (
+const AppMenu = ({store}) => (
   <Navbar fixedTop fluid inverse collapseOnSelect>
     <Navbar.Header>
       <Navbar.Brand>
@@ -13,10 +14,16 @@ const AppMenu = ({state}) => (
     </Navbar.Header>
     <Navbar.Collapse>
       <Nav>
-        <NavItem eventKey={1} onClick={() => state.showPostList()}>posts</NavItem>
-        <NavItem eventKey={2} onClick={() => state.showPostList({filters: {"category":"tech"}})}>tech posts</NavItem>
-        <NavItem eventKey={3} onClick={() => state.showTagList()}>tags</NavItem>
-        <NavItem eventKey={4} onClick={() => state.changeLang()}>change language</NavItem>
+        <NavItem eventKey={1} onClick={() => {
+          store.router.goTo(views.entity_list, {entityname: 'posts'}, store, {_page: 1})
+        }}>posts</NavItem>
+        <NavItem eventKey={2} onClick={() => {
+          store.router.goTo(views.entity_list, {entityname: 'posts'}, store, {_page: 1, category: 'tech'})
+        }}>tech posts</NavItem>
+        <NavItem eventKey={3} onClick={() => {
+          store.router.goTo(views.entity_list, {entityname: 'tags'}, store, {_page: 1})
+        }}>tags</NavItem>
+        <NavItem eventKey={4} onClick={() => store.changeLang()}>change language</NavItem>
       </Nav>
     </Navbar.Collapse>
   </Navbar>

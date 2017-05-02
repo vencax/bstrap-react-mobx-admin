@@ -6,9 +6,10 @@ import PaginationBase from 'react-mobx-admin/components/common/datagrid/paginati
 class Pagination extends PaginationBase {
 
   render() {
-    const totalItems = this.props.state.currentView.totalItems
-    const page = parseInt(this.props.state.currentView.page) || 1
-    const perPage = parseInt(this.props.state.currentView.perPage) || 1
+    const store = this.props.store
+    const totalItems = store.cv.totalItems
+    const page = store.router.queryParams ? parseInt(store.router.queryParams._page) : 1
+    const perPage = parseInt(store.cv.perPage) || 1
     const nbPages = Math.ceil(totalItems / perPage) || 1
     const offsetEnd = Math.min(page * perPage, totalItems)
     const offsetBegin = Math.min((page - 1) * perPage + 1, offsetEnd)
@@ -46,9 +47,9 @@ class Pagination extends PaginationBase {
 
 }
 
-const PageInfo = observer(({info}) => {
+const PageInfo = observer(({info, query}) => {
   const totalItems = info.totalItems
-  const page = parseInt(info.page) || 1
+  const page = query ? parseInt(query._page) : 1
   const perPage = parseInt(info.perPage) || 1
   const offsetEnd = Math.min(page * perPage, totalItems)
   const offsetBegin = Math.min((page - 1) * perPage + 1, offsetEnd)

@@ -19,9 +19,9 @@ const GlobalErrors = observer(({errors}) => {
   ) : null
 })
 
-const BStrapEditView = observer( ({state, children}) => {
+const BStrapEditView = observer( ({store, onSave, onReturn2list, children}) => {
 
-  const cv = state.currentView
+  const cv = store.cv
   const loading = (! cv.entity) || cv.loading
 
   if(loading) {
@@ -33,18 +33,12 @@ const BStrapEditView = observer( ({state, children}) => {
     (cv.createtitle || 'create new item')
   const saveText = cv.saveText || 'SAVE'
 
-  function onSaveAndReturn() {
-    cv.onSaved().then(()=>{
-      cv.onReturn2list()
-    })
-  }
-
   const actionButtons = (
     <div className="btn-group" role="group">
-      <SubmitButton onSubmit={cv.onSaved} errors={cv.errors} text={saveText} />
-      <SubmitButton onSubmit={onSaveAndReturn} errors={cv.errors}
+      <SubmitButton onSubmit={onSave} errors={cv.errors} text={saveText} />
+      <SubmitButton onSubmit={()=>onSave(onReturn2list)} errors={cv.errors}
         text={cv.saveAndReturnText || 'SAVE and return'} />
-      <button type="button" className="btn btn-secondary btn-default" onClick={cv.onReturn2list}>cancel</button>
+      <button type="button" className="btn btn-secondary btn-default" onClick={onReturn2list}>cancel</button>
     </div>
   )
 
