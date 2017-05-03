@@ -1,9 +1,10 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 
-const SubmitButton = observer(({ errors, text, onSubmit }) => (
+const SubmitButton = observer(({ errors, text, onSubmit, hasChanged }) => (
   errors ? (
-    <button type="button" className="btn btn-primary" disabled={errors.size > 0} onClick={onSubmit}>{text}</button>
+    <button type="button" className="btn btn-primary"
+      disabled={errors.size > 0 || ! hasChanged()} onClick={onSubmit}>{text}</button>
   ) : null
 ))
 
@@ -35,9 +36,9 @@ const BStrapEditView = observer( ({store, onSave, onReturn2list, children}) => {
 
   const actionButtons = (
     <div className="btn-group" role="group">
-      <SubmitButton onSubmit={onSave} errors={cv.errors} text={saveText} />
+      <SubmitButton onSubmit={onSave} errors={cv.errors} text={saveText} hasChanged={()=>(store.isEntityChanged)}/>
       <SubmitButton onSubmit={()=>onSave(onReturn2list)} errors={cv.errors}
-        text={cv.saveAndReturnText || 'SAVE and return'} />
+        text={cv.saveAndReturnText || 'SAVE and return'} hasChanged={()=>(store.isEntityChanged)} />
       <button type="button" className="btn btn-secondary btn-default" onClick={onReturn2list}>cancel</button>
     </div>
   )
