@@ -1,5 +1,5 @@
 import React from 'react'
-import { observer } from 'mobx-react'
+// import { observer } from 'mobx-react'
 import { asMap } from 'mobx'
 import { DropdownButton, MenuItem, Button } from 'react-bootstrap'
 
@@ -86,4 +86,4 @@ const PostListView = ({store}) => {
 
 }
 
-export default observer(['store'], PostListView)
+export default PostListView

@@ -15,12 +15,12 @@ const BStrapListView = ({
 
   function onSelectionChange(selection) {
     if(selection === 'all') {
-      store.selectAll(cv)
-    } else if(selection === []) {
-      store.updateSelection(cv, [])
+      store.selectAll()
+    } else if(selection.length === 0) {
+      store.updateSelection([])
     } else { // we have receive index of selected item
       // so toggle the selection of da index
-      store.toggleIndex(cv, selection)
+      store.toggleIndex(selection)
     }
   }
 
@@ -67,7 +67,7 @@ const BStrapListView = ({
           titles={cv.headertitles} fields={fields}
           rowId={(row)=>row[cv.pkName]}
           listActions={listActions}
-          onSort={store.updateSort.bind(store)} sortstate={cv}
+          onSort={store.updateSort.bind(store)} sortstate={store.router.queryParams}
           onRowSelection={onSelectionChange} isSelected={isSelected}
           allSelected={allSelected} filters={filters}
           updateFilterVal={store.updateFilterValue.bind(store)}

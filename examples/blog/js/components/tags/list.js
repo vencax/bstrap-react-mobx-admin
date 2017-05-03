@@ -1,5 +1,4 @@
 import React from 'react'
-import { observer } from 'mobx-react'
 import { DropdownButton, MenuItem } from 'react-bootstrap'
 
 import TextField from 'bstrap-react-mobx-admin/field/text'
@@ -39,4 +38,4 @@ const TagListView = ({store}) => {
 
 }
 
-export default observer(['store'], TagListView)
+export default TagListView
