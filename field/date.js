@@ -1,6 +1,9 @@
 import React from 'react'
 
 const BStrapDateField = ({record, attr, onClick}) => {
+  if (! record[attr]) {
+    return null
+  }
   const d = record[attr] instanceof Date ? d : new Date(record[attr])
   const val = (<span>{d.toLocaleDateString()}</span>)
 
