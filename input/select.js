@@ -4,11 +4,11 @@ import { FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap
 
 const SelectInput = ({
   attr, labelattr, valueattr, label, record,
-  optionsrecord, optionsattr, errors, onChange
+  optionsrecord, optionsattr, errors, onChange, validationSuccess
 }) => {
 
   const errorText = errors ? errors.get(attr) : undefined
-  const validationState = errorText ? 'error' : 'success'
+  const validationState = errorText ? 'error' : (validationSuccess ? 'success' : null)
   const value = record.get(attr)
   const options = optionsrecord.get(optionsattr || attr)
   valueattr = valueattr || 'value'
