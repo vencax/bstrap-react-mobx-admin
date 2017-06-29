@@ -3,8 +3,7 @@ import { observer } from 'mobx-react'
 import { FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap'
 
 const TextInput = ({attr, record, label, onChange, errors, validationSuccess, ...rest}) => {
-
-  function handleChange(event) {
+  function handleChange (event) {
     onChange(attr, event.target.value)
   }
 
@@ -14,7 +13,8 @@ const TextInput = ({attr, record, label, onChange, errors, validationSuccess, ..
   return (
     <FormGroup controlId={attr} validationState={validationState}>
       <ControlLabel>{label}</ControlLabel>
-      <FormControl componentClass="input" name={attr} value={value || ''}
+      <FormControl componentClass='input' name={attr}
+        value={typeof value === 'undefined' || value === null ? '' : value}
         onChange={handleChange} {...rest} />
       <FormControl.Feedback />
       {errorText ? <HelpBlock>{errorText}</HelpBlock> : null}
