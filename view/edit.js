@@ -33,13 +33,14 @@ const BStrapEditView = observer( ({store, onSave, onReturn2list, children}) => {
     (cv.edittitle || 'edit item') :
     (cv.createtitle || 'create new item')
   const saveText = cv.saveText || 'SAVE'
+  const cancelText = cv.cancelText || 'cancel'  
 
   const actionButtons = (
     <div className="btn-group" role="group">
       <SubmitButton onSubmit={onSave} errors={cv.errors} text={saveText} hasChanged={()=>(store.isEntityChanged)}/>
       <SubmitButton onSubmit={()=>onSave(onReturn2list)} errors={cv.errors}
         text={cv.saveAndReturnText || 'SAVE and return'} hasChanged={()=>(store.isEntityChanged)} />
-      <button type="button" className="btn btn-secondary btn-default" onClick={onReturn2list}>cancel</button>
+      <button type="button" className="btn btn-secondary btn-default" onClick={onReturn2list}>{cancelText}</button>
     </div>
   )
 
