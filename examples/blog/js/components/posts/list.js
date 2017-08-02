@@ -1,12 +1,11 @@
 import React from 'react'
 // import { observer } from 'mobx-react'
-import { asMap } from 'mobx'
 import { DropdownButton, MenuItem, Button } from 'react-bootstrap'
 
-import OptionsField from 'react-mobx-admin/components/common/field/opts_observed'
+import OptionsField from 'react-mobx-admin/components/common//field/opts'
 import MultivalueField from 'react-mobx-admin/components/common/field/multivalue'
-import TextField from 'bstrap-react-mobx-admin/field/text'
-import DateField from 'bstrap-react-mobx-admin/field/date'
+import TextField from 'react-mobx-admin/components/common/field/text'
+import DateField from 'react-mobx-admin/components/common/field/date'
 
 import TextInput from 'bstrap-react-mobx-admin/input/text'  // for filters
 import SelectInput from 'bstrap-react-mobx-admin/input/select'
@@ -16,15 +15,15 @@ import ListView from 'bstrap-react-mobx-admin/view/list'
 
 const PostListView = ({store}) => {
 
-  const _tagOptionComponent = ({attr, record}) => {
-    function onClick() {
-      store.showTagDetail(record[attr])
+  const _tagOptionComponent = ({attr, val}) => {
+    function onClick () {
+      alert('clicked tag ' + val)
     }
     const _tagComponent = ({text}) => (
       <Button style={{float: 'left'}} onClick={onClick}>{text}</Button>
     )
-    return <OptionsField attr={attr} record={record}
-      optionsrecord={store.options} optionsattr={'tags'}
+    return <OptionsField attr={attr} val={val}
+      options={store.options.get('tags')}
       labelattr={'name'} valueattr={'id'} Component={_tagComponent} />
   }
 
@@ -55,22 +54,22 @@ const PostListView = ({store}) => {
   }
 
   const _tagComponent = ({value, ...rest}) => {
-    return <TagField key={value.id} attr={'a'} record={asMap({a:value.name})}
+    return <TagField key={value.id} attr={'a'} val={value.name}
       optionsrecord={store.options} optionsattr={'tags'}
       labelattr={'name'} valueattr={'id'} />
   }
 
   const fields = [
-    (attr, row) => (<TextField attr={attr} record={row} />),
+    (attr, row) => (<TextField attr={attr} val={row[attr]} />),
     (attr, row) => {
-      return (<TextField attr={attr} record={row} onClick={() => store.detailClicked(row)}/>)
+      return (<TextField attr={attr} val={row[attr]} onClick={() => store.detailClicked(row)}/>)
     },
     (attr, row) => (
-      <OptionsField attr={attr} record={row} optionsrecord={store.options} optionsattr={'categories'} />
+      <OptionsField attr={attr} val={row[attr]} optionsrecord={store.options} optionsattr={'categories'} />
     ),
-    (attr, row) => (<DateField attr={attr} record={row} />),
-    (attr, row) => (<DateField attr={attr} record={row} />),
-    (attr, row) => (<div><MultivalueField items={row[attr]} Item={_tagOptionComponent} /></div>)
+    (attr, row) => (<DateField attr={attr} val={row[attr]} />),
+    (attr, row) => (<DateField attr={attr} val={row[attr]} />),
+    (attr, row) => (<div><MultivalueField val={row[attr]} Item={_tagOptionComponent} /></div>)
   ]
 
   const filters = {

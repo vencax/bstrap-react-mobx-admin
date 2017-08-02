@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const BStrapBoolField = ({record, attr, valuemapping}) => {
-  const val = valuemapping ? valuemapping[record[attr]] : record[attr]
+const BStrapBoolField = ({val, attr, valuemapping}) => {
+  val = valuemapping ? valuemapping[val] : val
   const checked = Boolean(val)
   return (
     <input className="form-check-input" name={attr} type="checkbox" checked={checked} disabled />
@@ -11,7 +11,7 @@ const BStrapBoolField = ({record, attr, valuemapping}) => {
 
 BStrapBoolField.propTypes = {
   attr: PropTypes.string.isRequired,
-  record: PropTypes.object.isRequired
+  val: PropTypes.any
 }
 
 export default BStrapBoolField
