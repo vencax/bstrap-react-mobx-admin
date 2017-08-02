@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 // import { observer } from 'mobx-react'
 import TextInput from 'bstrap-react-mobx-admin/input/text'
 import BoolInput from 'bstrap-react-mobx-admin/input/bool'
@@ -22,7 +23,7 @@ const TagEditForm = ({store}) => {
   )
 }
 TagEditForm.propTypes = {
-  store: React.PropTypes.object.isRequired
+  store: PropTypes.object.isRequired
 }
 
 const TagsEditView = ({store}) => (

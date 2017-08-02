@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 const BStrapDateField = ({record, attr, onClick}) => {
   if (! record[attr]) {
@@ -12,8 +13,8 @@ const BStrapDateField = ({record, attr, onClick}) => {
 }
 
 BStrapDateField.propTypes = {
-  attr: React.PropTypes.string.isRequired,
-  record: React.PropTypes.object.isRequired
+  attr: PropTypes.string.isRequired,
+  record: PropTypes.object.isRequired
 }
 
 export default BStrapDateField

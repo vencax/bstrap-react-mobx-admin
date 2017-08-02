@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Datagrid from '../datagrid/datagrid'
 import Filters from '../datagrid/filters'
 import Pagination from '../datagrid/pagination'
@@ -85,7 +86,7 @@ const BStrapListView = ({
 }
 
 BStrapListView.propTypes = {
-  store: React.PropTypes.object.isRequired,
-  renderOuter: React.PropTypes.func
+  store: PropTypes.object.isRequired,
+  renderOuter: PropTypes.func
 }
 export default observer(BStrapListView)

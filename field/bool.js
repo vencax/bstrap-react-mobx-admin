@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 const BStrapBoolField = ({record, attr, valuemapping}) => {
   const val = valuemapping ? valuemapping[record[attr]] : record[attr]
@@ -9,8 +10,8 @@ const BStrapBoolField = ({record, attr, valuemapping}) => {
 }
 
 BStrapBoolField.propTypes = {
-  attr: React.PropTypes.string.isRequired,
-  record: React.PropTypes.object.isRequired
+  attr: PropTypes.string.isRequired,
+  record: PropTypes.object.isRequired
 }
 
 export default BStrapBoolField

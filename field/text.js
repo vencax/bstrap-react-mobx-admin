@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 const BStrapTextField = ({record, attr, onClick}) => {
 
@@ -8,8 +9,8 @@ const BStrapTextField = ({record, attr, onClick}) => {
 }
 
 BStrapTextField.propTypes = {
-  attr: React.PropTypes.string.isRequired,
-  record: React.PropTypes.object.isRequired
+  attr: PropTypes.string.isRequired,
+  record: PropTypes.object.isRequired
 }
 
 export default BStrapTextField

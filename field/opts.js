@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 
 const BStrapOptionsField = ({
@@ -20,16 +21,16 @@ const BStrapOptionsField = ({
 }
 
 BStrapOptionsField.propTypes = {
-  attr: React.PropTypes.any.isRequired,
-  record: React.PropTypes.object.isRequired,
-  optionsrecord: React.PropTypes.object.isRequired,
-  optionsattr: React.PropTypes.string,
-  labelattr: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.func
+  attr: PropTypes.any.isRequired,
+  record: PropTypes.object.isRequired,
+  optionsrecord: PropTypes.object.isRequired,
+  optionsattr: PropTypes.string,
+  labelattr: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func
   ]),
-  valueattr: React.PropTypes.string,
-  onClick: React.PropTypes.func
+  valueattr: PropTypes.string,
+  onClick: PropTypes.func
 }
 
 export default observer(BStrapOptionsField)
