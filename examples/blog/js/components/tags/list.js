@@ -1,9 +1,8 @@
 import React from 'react'
 import { DropdownButton, MenuItem } from 'react-bootstrap'
 
-import TextField from 'bstrap-react-mobx-admin/field/text'
-import DateField from 'bstrap-react-mobx-admin/field/date'
-import MUIBoolField from 'bstrap-react-mobx-admin/field/bool'
+import TextField from 'react-mobx-admin/components/common/field/text'
+import BoolField from 'bstrap-react-mobx-admin/field/bool'
 import ListView from 'bstrap-react-mobx-admin/view/list'
 
 
@@ -23,11 +22,11 @@ const TagListView = ({store}) => {
   }
 
   const fields = [
-    (attr, row) => (<TextField attr={attr} record={row} />),
+    (attr, row) => (<TextField attr={attr} val={row[attr]} />),
     (attr, row) => {
-      return <TextField attr={attr} record={row} onClick={() => store.detailClicked(row)} />
+      return <TextField attr={attr} val={row[attr]} onClick={() => store.detailClicked(row)} />
     },
-    (attr, row) => (<MUIBoolField attr={attr} record={row} />)
+    (attr, row) => (<BoolField attr={attr} val={row[attr]} />)
   ]
 
   return (

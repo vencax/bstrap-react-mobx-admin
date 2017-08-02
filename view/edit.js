@@ -23,13 +23,13 @@ const GlobalErrors = observer(({errors}) => {
 const BStrapEditView = observer( ({store, onSave, onReturn2list, children}) => {
 
   const cv = store.cv
-  const loading = (! cv.entity) || cv.loading
+  const loading = (! cv.record) || cv.loading
 
   if(loading) {
     return <span className="is-loading">loading</span>
   }
 
-  const title = cv.originEntityId ?
+  const title = cv.origRecordId ?
     (cv.edittitle || 'edit item') :
     (cv.createtitle || 'create new item')
   const saveText = cv.saveText || 'SAVE'

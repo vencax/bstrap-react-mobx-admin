@@ -10,7 +10,7 @@
     "bootstrap"
   ],
   "author": "vencax <vencax77@gmail.com>",
-  "repository": "hhttps://github.com/blueskydigital/bstrap-react-mobx-admin",
+  "repository": "https://github.com/blueskydigital/bstrap-react-mobx-admin",
   "license": "ISC",
   "peerDependencies": {
     "axios": "^0.14.0",
