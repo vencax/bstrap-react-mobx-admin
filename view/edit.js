@@ -23,7 +23,7 @@ const GlobalErrors = observer(({errors}) => {
 const BStrapEditView = observer( ({store, onSave, onReturn2list, children}) => {
 
   const cv = store.cv
-  const loading = (! cv.record) || cv.loading
+  const loading = cv.state === 'loading' || cv.state === 'saving'
 
   if(loading) {
     return <span className="is-loading">loading</span>

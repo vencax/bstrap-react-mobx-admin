@@ -31,7 +31,7 @@ const BStrapListView = ({
 
   const allSelected = cv.selection.length > 0 && cv.selection.length === cv.items.length
 
-  const filtersRender = (filters && ! cv.loading) ? (
+  const filtersRender = (filters && cv.state === 'ready') ? (
     <Filters.Controls state={store}
       hideFilter={store.hideFilter.bind(store)} filters={filters} />
   ) : null
