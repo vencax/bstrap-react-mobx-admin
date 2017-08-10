@@ -9,10 +9,11 @@ import { DropdownButton, MenuItem, Button, ButtonGroup } from 'react-bootstrap'
 
 
 const BStrapListView = ({
-  store, onAddClicked, fields, filters, listActions, batchActions, renderOuter
+  store, onAddClicked, fields, filters, listActions, batchActions, renderOuter, perPageOptions
 }) => {
-
+  //
   const cv = store.cv
+  perPageOptions = perPageOptions || [5, 10, 20, 50, 100]
 
   function onSelectionChange(selection) {
     if(selection === 'all') {
@@ -35,13 +36,30 @@ const BStrapListView = ({
     <Filters.Controls state={store}
       hideFilter={store.hideFilter.bind(store)} filters={filters} />
   ) : null
+
+  const perPageRender = (
+    <DropdownButton className='per-page-select' dropup
+      title={store.router.queryParams._perPage}
+      id='dropdown' onSelect={(num) => store.setPerPage(num)}
+    >
+      {
+        perPageOptions.map((i) => {
+          return <MenuItem eventKey={i} key={i}>{i}</MenuItem>
+        })
+      }
+    </DropdownButton>
+  )
   const pagination = (
-    <div className="card-block">
-      <div className="pull-right">
-        <Pagination.Pagination store={store} onChange={store.updatePage.bind(store)} />
+    <div className='card-block'>
+      <div className='pull-right'>
+        <ButtonGroup>
+          {perPageRender}
+          <Pagination.Pagination store={store} onChange={store.updatePage.bind(store)} />
+
+        </ButtonGroup>
       </div>
-      <div className="pull-left">
-        <Pagination.PageInfo info={cv} query={store.router.queryParams} />
+      <div className='pull-left'>
+        <div><Pagination.PageInfo info={cv} query={store.router.queryParams} /></div>
       </div>
     </div>
   )
