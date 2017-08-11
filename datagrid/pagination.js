@@ -9,7 +9,7 @@ class Pagination extends PaginationBase {
     const store = this.props.store
     const totalItems = store.cv.totalItems
     const page = store.router.queryParams ? parseInt(store.router.queryParams._page) : 1
-    const perPage = parseInt(store.cv.perPage) || 1
+    const perPage = parseInt(store.router.queryParams._perPage) || 1
     const nbPages = Math.ceil(totalItems / perPage) || 1
     const offsetEnd = Math.min(page * perPage, totalItems)
     const offsetBegin = Math.min((page - 1) * perPage + 1, offsetEnd)
@@ -50,7 +50,7 @@ class Pagination extends PaginationBase {
 const PageInfo = observer(({info, query}) => {
   const totalItems = info.totalItems
   const page = query ? parseInt(query._page) : 1
-  const perPage = parseInt(info.perPage) || 1
+  const perPage = parseInt(query._perPage) || 1
   const offsetEnd = Math.min(page * perPage, totalItems)
   const offsetBegin = Math.min((page - 1) * perPage + 1, offsetEnd)
 
