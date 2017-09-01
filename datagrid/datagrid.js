@@ -5,10 +5,27 @@ import _ from 'lodash'
 import HeaderBase from 'react-mobx-admin/components/common/datagrid/header'
 import * as TUtils from 'react-mobx-admin/components/common/datagrid/table'
 
-
 class BStrapHeader extends HeaderBase {
-  renderIcon(sort) {
-    return <span style={sort === 'ASC' ? { transform: 'rotate(180deg)' } : {}}>sort</span>
+  renderIcon (sort) {
+    const {onSort, name} = this.props
+    function _onUpClick (e) {
+      e.stopPropagation()
+      onSort(name, sort === 'ASC' ? null : 'ASC')
+    }
+    function _onDownClick (e) {
+      e.stopPropagation()
+      onSort(name, sort === 'DESC' ? null : 'DESC')
+    }
+    return (
+      <span>
+        <button type='button' className={'btn btn-xs ' + (sort === 'ASC' ? 'btn-secondary' : 'btn-primary')} onClick={_onUpClick}>
+          <span className='glyphicon glyphicon-chevron-up' />
+        </button>
+        <button type='button' className={'btn btn-xs ' + (sort === 'DESC' ? 'btn-secondary' : 'btn-primary')} onClick={_onDownClick}>
+          <span className='glyphicon glyphicon-chevron-down' />
+        </button>
+      </span>
+    )
   }
 }
 
