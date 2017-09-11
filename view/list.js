@@ -13,7 +13,7 @@ const BStrapListView = ({
 }) => {
   //
   const cv = store.cv
-  perPageOptions = perPageOptions || [5, 10, 20, 50, 100]
+  perPageOptions = perPageOptions || [5, 10, 15, 20, 50, 100]
 
   function onSelectionChange(selection) {
     if(selection === 'all') {
@@ -40,8 +40,7 @@ const BStrapListView = ({
   const perPageRender = (
     <DropdownButton className='per-page-select' dropup
       title={store.router.queryParams._perPage}
-      id='dropdown' onSelect={(num) => store.setPerPage(num)}
-    >
+      id='dropdown' onSelect={(num) => store.setPerPage(num)}>
       {
         perPageOptions.map((i) => {
           return <MenuItem eventKey={i} key={i}>{i}</MenuItem>
@@ -53,10 +52,9 @@ const BStrapListView = ({
     <div className='card-block'>
       <div className='pull-right'>
         <ButtonGroup>
-          {perPageRender}
           <Pagination.Pagination store={store} onChange={store.updatePage.bind(store)} />
-
         </ButtonGroup>
+        {perPageRender}
       </div>
       <div className='pull-left'>
         <div><Pagination.PageInfo info={cv} query={store.router.queryParams} /></div>
