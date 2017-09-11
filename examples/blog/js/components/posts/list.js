@@ -62,7 +62,10 @@ const PostListView = ({store}) => {
   const fields = [
     (attr, row) => (<TextField attr={attr} val={row[attr]} />),
     (attr, row) => {
-      return (<TextField attr={attr} val={row[attr]} onClick={() => store.detailClicked(row)}/>)
+      const DetailLink = ({text}) => (
+        <a href='javascript:void(0)' onClick={() => store.detailClicked(row)}>{text}</a>
+      )
+      return <TextField attr={attr} val={row[attr]} Component={DetailLink} />
     },
     (attr, row) => (
       <OptionsField attr={attr} val={row[attr]} optionsrecord={store.options} optionsattr={'categories'} />
