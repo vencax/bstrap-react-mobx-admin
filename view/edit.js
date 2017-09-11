@@ -1,5 +1,5 @@
 import React from 'react'
-import { observer } from 'mobx-react'
+import {observer} from 'mobx-react'
 
 const SubmitButton = observer(({ errors, text, onSubmit, hasChanged }) => (
   errors ? (
@@ -20,46 +20,89 @@ const GlobalErrors = observer(({errors}) => {
   ) : null
 })
 
-const BStrapEditView = observer( ({store, onSave, onReturn2list, children}) => {
+@observer export default class BStrapEditView extends React.Component {
 
-  const cv = store.cv
-  const loading = cv.state === 'loading' || cv.state === 'saving'
-
-  if(loading) {
-    return <span className="is-loading">loading</span>
+  constructor (props) {
+    super(props)
+    this.onKeyDownActions = this.onKeyDownActions.bind(this)
   }
 
-  const title = cv.origRecordId ?
-    (cv.edittitle || 'edit item') :
-    (cv.createtitle || 'create new item')
-  const saveText = cv.saveText || 'SAVE'
-  const cancelText = cv.cancelText || 'cancel'  
+  componentDidMount () {
+    document.addEventListener('keydown', this.onKeyDownActions, false)
+  }
 
-  const actionButtons = (
-    <div className="btn-group" role="group">
-      <SubmitButton onSubmit={onSave} errors={cv.errors} text={saveText} hasChanged={()=>(store.isEntityChanged)}/>
-      <SubmitButton onSubmit={()=>onSave(onReturn2list)} errors={cv.errors}
-        text={cv.saveAndReturnText || 'SAVE and return'} hasChanged={()=>(store.isEntityChanged)} />
-      <button type="button" className="btn btn-secondary btn-default" onClick={onReturn2list}>{cancelText}</button>
-    </div>
-  )
+  componentWillUnmount () {
+    document.removeEventListener('keydown', this.onKeyDownActions, false)
+  }
 
-  return (
-    <div className="card">
-      <div className="card-block">
-        <h4 className="card-title">{title}</h4>
-        { actionButtons }
+  onKeyDownActions (event) {
+    const e = event || window.event
+    e.onKeyDownActions = false
+
+    if (e.keyCode === 13) {
+      // enter
+      e.onKeyDownActions = true
+    } else if (e.keyCode === 27) {
+      // esc
+      e.onKeyDownActions = true
+      this.props.onReturn2list()
+    } else if ((e.ctrlKey || e.metaKey) && e.keyCode === 69) {
+      // ctrl+e
+      e.onKeyDownActions = true
+      if (this.props.store.isEntityChanged) {
+        this.props.store.saveEntity(this.props.onReturn2list)
+      } else {
+        this.props.onReturn2list()
+      }
+    } else if ((e.ctrlKey || e.metaKey) && e.keyCode === 83) {
+      // ctrl+s
+      e.onKeyDownActions = true
+      this.props.store.isEntityChanged && this.props.store.saveEntity()
+    }
+
+    e.onKeyDownActions && e.preventDefault() && e.stopPropagation()
+  }
+
+  render({store, onSave, onReturn2list, children} = this.props) {
+
+    const cv = store.cv
+    const loading = cv.state === 'loading' || cv.state === 'saving'
+
+    if(loading) {
+      return <span className="is-loading">loading</span>
+    }
+
+    const title = cv.origRecordId ?
+      (cv.edittitle || 'edit item') :
+      (cv.createtitle || 'create new item')
+    const saveText = cv.saveText || 'SAVE'
+    const cancelText = cv.cancelText || 'cancel'
+
+    const actionButtons = (
+      <div className="btn-group" role="group">
+        <SubmitButton onSubmit={onSave} errors={cv.errors} text={saveText} hasChanged={()=>(store.isEntityChanged)}/>
+        <SubmitButton onSubmit={()=>onSave(onReturn2list)} errors={cv.errors}
+          text={cv.saveAndReturnText || 'SAVE and return'} hasChanged={()=>(store.isEntityChanged)} />
+        <button type="button" className="btn btn-secondary btn-default" onClick={onReturn2list}>{cancelText}</button>
       </div>
+    )
 
-      <div className="card-block">
-        <form>{children}</form>
-        <GlobalErrors errors={cv.errors} />
-      </div>
+    return (
+      <div className="card">
+        <div className="card-block">
+          <h4 className="card-title">{title}</h4>
+          { actionButtons }
+        </div>
 
-      <div className="card-block">
-        { actionButtons }
+        <div className="card-block">
+          <form>{children}</form>
+          <GlobalErrors errors={cv.errors} />
+        </div>
+
+        <div className="card-block">
+          { actionButtons }
+        </div>
       </div>
-    </div>
-  )
-})
-export default BStrapEditView
+    )
+  }
+}
