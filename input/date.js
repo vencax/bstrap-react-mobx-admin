@@ -1,11 +1,11 @@
 import React from 'react'
 import { observer } from 'mobx-react'
-import DatePicker from 'react-bootstrap-date-picker'
+import DatePicker from 'react-datepicker'
+import moment from 'moment'
 import { FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap'
 
 const BStrapDateInput = ({attr, label, record, onChange, errors, validationSuccess}) => {
-
-  function handleChange(value) {
+  function handleChange (value) {
     onChange(attr, value)
   }
 
@@ -15,7 +15,18 @@ const BStrapDateInput = ({attr, label, record, onChange, errors, validationSucce
   return (
     <FormGroup validationState={validationState}>
       <ControlLabel>{label}</ControlLabel>
-      <DatePicker value={record.get(attr)} onChange={handleChange} />
+      <DatePicker
+        dateFormat='YYYY-MM-DD'
+        dropdownMode='select'
+        locale='en-gb'
+        onChange={handleChange}
+        peekNextMonth
+        placeholderText='Enter date'
+        selected={moment(record.get(attr)).isValid() ? moment(record.get(attr)) : ''}
+        showMonthDropdown
+        showWeekNumbers
+        showYearDropdown
+        />
       {errorText ? <HelpBlock>{errorText}</HelpBlock> : null}
     </FormGroup>
   )
