@@ -23,7 +23,7 @@ const TextInput = ({attr, record, label, onChange, errors, validationSuccess, da
   if (dateFormat) {
     var date = new Date(value)
     if ((Object.prototype.toString.call(date) !== '[object Date]') || isNaN(date.getTime())) {
-      console.log('Invalid date format!')
+      // console.log('Invalid date format!')
     } else {
       value = formateDate({date})
     }
