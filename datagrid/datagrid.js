@@ -17,14 +17,14 @@ const BStrapHeader = ({label, sort, name, onSort}) => {
     <div>
       <span>{label}&nbsp;</span>
       {onSort && (
-        <span>
-          <Button className={'btn btn-xs ' + (sort === 'ASC' && 'btn-primary')} onClick={_onUpClick}>
+        <div style={{display: 'inline-block'}}>
+          <Button bsSize='xsmall' bsStyle={sort === 'ASC' ? 'primary' : 'default'} onClick={_onUpClick}>
             <span className='glyphicon glyphicon-chevron-up' />
           </Button>
-          <Button className={'btn btn-xs ' + (sort === 'DESC' && 'btn-primary')} onClick={_onDownClick}>
+          <Button bsSize='xsmall' bsStyle={sort === 'DESC' ? 'primary' : 'default'} onClick={_onDownClick}>
             <span className='glyphicon glyphicon-chevron-down' />
           </Button>
-        </span>
+        </div>
       )}
     </div>
   )
@@ -98,7 +98,7 @@ const BStrapDatagrid = ({
   const selectable = onRowSelection !== undefined && isSelected !== undefined
 
   let tableChildren = state.loading ? (
-    <tr><td>loadiny</td></tr>
+    <tr><td>Loading...</td></tr>
   ) : state.items.length === 0 ? (
     <tr><td>EMPTY</td></tr>
   ) : state.items.map((r, i) => {
