@@ -2,7 +2,7 @@ import React from 'react'
 import { observer } from 'mobx-react'
 import { FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap'
 
-const TextInput = ({attr, record, label, onChange, errors, validationSuccess, dateFormat, ...rest}) => {
+const TextInput = ({attr, record, label, onChange, errors, validationSuccess, dateFormat, attrValue, ...rest}) => {
   function handleChange (event) {
     onChange(attr, event.target.value)
   }
@@ -18,7 +18,7 @@ const TextInput = ({attr, record, label, onChange, errors, validationSuccess, da
 
   const errorText = errors ? errors.get(attr) : undefined
   const validationState = errorText ? 'error' : (validationSuccess ? 'success' : null)
-  let value = record.get(attr)
+  let value = attrValue || record.get(attr)
 
   if (dateFormat) {
     var date = new Date(value)
