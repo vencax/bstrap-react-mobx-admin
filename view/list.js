@@ -7,12 +7,13 @@ import DatagridActions from 'react-mobx-admin/components/common/datagrid/actions
 import { observer } from 'mobx-react'
 import { DropdownButton, MenuItem, Button, ButtonGroup } from 'react-bootstrap'
 
-
 const BStrapListView = ({
   store, onAddClicked, fields, filters, listActions, batchActions, renderOuter, perPageOptions
 }) => {
   //
   const cv = store.cv
+  const perPage = parseInt(store.router.queryParams._perPage) || 1
+  const nbPages = Math.ceil(store.cv.totalItems / perPage) || 1
   perPageOptions = perPageOptions || [5, 10, 15, 20, 50, 100]
 
   function onSelectionChange(selection) {
@@ -54,7 +55,7 @@ const BStrapListView = ({
         <ButtonGroup>
           <Pagination.Pagination store={store} onChange={store.updatePage.bind(store)} />
         </ButtonGroup>
-        {perPageRender}
+        {nbPages > 1 && perPageRender}
       </div>
       <div className='pull-left'>
         <div><Pagination.PageInfo info={cv} query={store.router.queryParams} /></div>
