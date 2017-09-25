@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap'
 
@@ -49,18 +50,18 @@ const SelectInput = ({
 }
 
 SelectInput.propTypes = {
-  attr: React.PropTypes.string.isRequired,
-  record: React.PropTypes.object.isRequired,
-  labelattr: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.func
+  attr: PropTypes.string.isRequired,
+  record: PropTypes.object.isRequired,
+  labelattr: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func
   ]),
-  valueattr: React.PropTypes.string,
-  label: React.PropTypes.string,
-  onChange: React.PropTypes.func.isRequired,
-  optionsrecord: React.PropTypes.object.isRequired,
-  optionsattr: React.PropTypes.string,
-  errors: React.PropTypes.object
+  valueattr: PropTypes.string,
+  label: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
+  optionsrecord: PropTypes.object.isRequired,
+  optionsattr: PropTypes.string,
+  errors: PropTypes.object
 }
 
 export default observer(SelectInput)

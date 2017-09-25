@@ -1,6 +1,6 @@
 {
   "name": "bstrap-react-mobx-admin",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "bootstrap components for react-mobx-admin",
   "main": "index.js",
   "keywords": [
