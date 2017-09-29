@@ -23,7 +23,7 @@ const BStrapDateInput = ({attr, label, record, onChange, errors, validationSucce
         onChange={handleChange}
         peekNextMonth
         placeholderText='Enter date'
-        selected={moment(record.get(attr)).isValid() ? moment(record.get(attr)) : ''}
+        selected={attr && record.has(attr) && moment(record.get(attr)).isValid() ? moment(record.get(attr)) : ''}
         showMonthDropdown
         showWeekNumbers
         showYearDropdown
