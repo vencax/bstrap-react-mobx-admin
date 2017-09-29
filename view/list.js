@@ -63,23 +63,23 @@ const BStrapListView = ({
   )
 
   const result = (
-    <div className="card">
-      <div className="card-block">
-        <div className="pull-right">
+    <div className='card'>
+      <div className='card-block'>
+        <div className='pull-right'>
           <ButtonGroup>
             <Filters.Apply state={store} label={'apply filters'} apply={store.applyFilters.bind(store)} />
             {batchActions && (<DatagridActions state={store} actions={batchActions} />)}
             {filters && (
-              <Filters.Dropdown state={store} title="addfilter" filters={filters}
+              <Filters.Dropdown state={store} title='addfilter' filters={filters}
                 showFilter={store.showFilter.bind(store)} />
             )}
-            {onAddClicked && <Button onClick={()=>onAddClicked(store)}>{cv.addText || '+'}</Button>}
+            {onAddClicked && <Button bsStyle='primary' onClick={() => onAddClicked(store)}>{cv.addText || '+'}</Button>}
           </ButtonGroup>
         </div>
-        {cv.title ? <h4 className="card-title">{cv.title}</h4> : null}
+        {cv.title ? <h4 className='card-title'>{cv.title}</h4> : null}
       </div>
       { filtersRender }
-      <div className="card-block">
+      <div className='card-block'>
         <Datagrid state={cv} attrs={cv.attrs}
           titles={cv.headertitles} fields={fields}
           rowId={(row)=>row[cv.pkName]}

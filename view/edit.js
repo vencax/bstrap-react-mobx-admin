@@ -83,7 +83,7 @@ const GlobalErrors = observer(({errors}) => {
         <SubmitButton onSubmit={onSave} errors={cv.errors} text={saveText} hasChanged={()=>(store.isEntityChanged)}/>
         <SubmitButton onSubmit={()=>onSave(onReturn2list)} errors={cv.errors}
           text={cv.saveAndReturnText || 'SAVE and return'} hasChanged={()=>(store.isEntityChanged)} />
-        <button type="button" className="btn btn-secondary btn-default" onClick={onReturn2list}>{cancelText}</button>
+        <button type="button" className="btn btn-default" onClick={onReturn2list}>{cancelText}</button>
       </div>
     )
 
