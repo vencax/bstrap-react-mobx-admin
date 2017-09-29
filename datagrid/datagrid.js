@@ -17,7 +17,7 @@ const BStrapHeader = ({label, sort, name, onSort}) => {
     <div>
       <span>{label}&nbsp;</span>
       {onSort && (
-        <div style={{display: 'inline-block'}}>
+        <div className='sort-buttons-box'>
           <Button bsSize='xsmall' bsStyle={sort === 'ASC' ? 'primary' : 'default'} onClick={_onUpClick}>
             <span className='glyphicon glyphicon-chevron-up' />
           </Button>
