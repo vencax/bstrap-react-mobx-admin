@@ -15,7 +15,7 @@ const BStrapHeader = ({label, sort, name, onSort}) => {
   }
   return (
     <div>
-      <span>{label}&nbsp;</span>
+      <div>{label}&nbsp;</div>
       {onSort && (
         <div className='sort-buttons-box'>
           <Button bsSize='xsmall' bsStyle={sort === 'ASC' ? 'primary' : 'default'} onClick={_onUpClick}>
@@ -37,7 +37,7 @@ BStrapHeader.propTypes = {
 }
 
 const BStrapDatagrid = ({
-  state, attrs, fields, titles, rowId, isSelected,
+  state, attrs, fields, titles, rowId, isSelected, noSort,
   onRowSelection, onSort, sortstate, listActions, allSelected,
   filters, updateFilterVal, applyFilters, hideFilter, isFilterApplied
 }) => {
@@ -50,7 +50,8 @@ const BStrapDatagrid = ({
     })
     return (
       <th key={`th_${name}`}>
-        <BStrapHeader sort={sort} name={name} label={label} onSort={onSort} />
+        <BStrapHeader showArrows={noSort && noSort.some(n => n === name)}
+          sort={sort} name={name} label={label} onSort={onSort} />
         {filter ? (
           <InputGroup>
             {
