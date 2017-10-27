@@ -16,10 +16,10 @@ const BStrapListView = ({
   const perPageTitle = store.router.queryParams._perPage || ''
   perPageOptions = perPageOptions || [5, 10, 15, 20, 50, 100]
 
-  function onSelectionChange(selection) {
-    if(selection === 'all') {
+  function onSelectionChange (selection) {
+    if (selection === 'all') {
       store.selectAll()
-    } else if(selection.length === 0) {
+    } else if (selection.length === 0) {
       store.updateSelection([])
     } else { // we have receive index of selected item
       // so toggle the selection of da index
@@ -27,7 +27,7 @@ const BStrapListView = ({
     }
   }
 
-  function isSelected(idx) {
+  function isSelected (idx) {
     return cv.selection.indexOf(idx) >= 0
   }
 
@@ -82,17 +82,18 @@ const BStrapListView = ({
       <div className='card-block'>
         <Datagrid state={cv} attrs={cv.attrs}
           titles={cv.headertitles} fields={fields}
-          rowId={(row)=>row[cv.pkName]}
+          rowId={(row) => row[cv.pkName]}
           listActions={listActions}
           onSort={store.updateSort.bind(store)} sortstate={store.router.queryParams}
+          noSort={cv.noSort}
           onRowSelection={onSelectionChange} isSelected={isSelected}
           allSelected={allSelected} filters={filters}
           updateFilterVal={store.updateFilterValue.bind(store)}
           applyFilters={store.applyFilters.bind(store)}
           hideFilter={store.hideFilter.bind(store)}
-          isFilterApplied={(filtername)=>{
+          isFilterApplied={(filtername) => {
             return filtername in store.appliedFilters
-          }}/>
+          }} />
       </div>
       { pagination }
     </div>

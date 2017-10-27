@@ -52,7 +52,7 @@ const BStrapDatagrid = ({
       <th key={`th_${name}`}>
         <BStrapHeader
           sort={sort} name={name} label={label}
-          onSort={onSort && !(noSort && noSort.some(n => n === name))} />
+          onSort={noSort && noSort.some(n => n === name) ? null : onSort} />
         {filter ? (
           <InputGroup>
             {
