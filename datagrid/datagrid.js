@@ -126,7 +126,10 @@ const BStrapDatagrid = ({
               <Checkbox checked={allSelected} inline={true} bsClass='btn'
                 onChange={_onSelectAll}></Checkbox>
             </th> : null }
-            { TUtils.buildHeaders(attrs, titles, _renderHeader, listActionsRender, onSort, sortstate) }
+            {
+              TUtils.buildHeaders(attrs, titles, _renderHeader, listActionsRender,
+                onSort, sortstate, state.unsortableAttrs)
+            }
           </tr>
         </thead>
       ) : null}
