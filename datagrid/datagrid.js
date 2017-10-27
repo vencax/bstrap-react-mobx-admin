@@ -50,8 +50,9 @@ const BStrapDatagrid = ({
     })
     return (
       <th key={`th_${name}`}>
-        <BStrapHeader showArrows={noSort && noSort.some(n => n === name)}
-          sort={sort} name={name} label={label} onSort={onSort} />
+        <BStrapHeader
+          sort={sort} name={name} label={label}
+          onSort={onSort && !(noSort && noSort.some(n => n === name))} />
         {filter ? (
           <InputGroup>
             {
@@ -128,7 +129,7 @@ const BStrapDatagrid = ({
             </th> : null }
             {
               TUtils.buildHeaders(attrs, titles, _renderHeader, listActionsRender,
-                onSort, sortstate, state.noSort)
+                onSort, sortstate, noSort)
             }
           </tr>
         </thead>
