@@ -128,7 +128,7 @@ const BStrapDatagrid = ({
             </th> : null }
             {
               TUtils.buildHeaders(attrs, titles, _renderHeader, listActionsRender,
-                onSort, sortstate, state.unsortableAttrs)
+                onSort, sortstate, state.noSort)
             }
           </tr>
         </thead>
