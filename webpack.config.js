@@ -11,7 +11,7 @@ module.exports = {
         // NOTE: you need modify exclude regexp when used in separate project
         // to allow babel to transpile!!!
         // E.g. /node_modules(?!\/react-mobx-admin)/
-        exclude: /node_modules(?!\/react-mobx-admin)/,
+        exclude: /node_modules(?!(\\|\/)react-mobx-admin|(\\|\/)mobx-router)/,
         loader: 'babel-loader'
       }
     ]
