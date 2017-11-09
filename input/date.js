@@ -29,6 +29,7 @@ const BStrapDateInput = ({attr, label, record, onChange, errors, validationSucce
         showMonthDropdown
         showWeekNumbers
         showYearDropdown
+        utcOffset={0}
         />
       {errorText ? <HelpBlock>{errorText}</HelpBlock> : null}
     </FormGroup>
