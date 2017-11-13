@@ -38,7 +38,7 @@ BStrapHeader.propTypes = {
 
 const BStrapDatagrid = ({
   state, attrs, fields, titles, rowId, isSelected, noSort,
-  onRowSelection, onSort, sortstate, listActions, allSelected,
+  onRowSelection, onSort, sortstate, listActions, listActionDelete, allSelected,
   filters, updateFilterVal, applyFilters, hideFilter, isFilterApplied
 }) => {
   //
@@ -79,6 +79,10 @@ const BStrapDatagrid = ({
     <th key={'_actions'}>{ listActions() }</th>
   ) : null
 
+  const listActionDeleteRender = listActionDelete ? (
+    <th key={'_actions-delete'}>{ listActionDelete() }</th>
+  ) : null    
+
   function _renderCell (row, name, creatorFn, rowId) {
     return (
       <td key={`td_${rowId}_${name}`}>
@@ -93,6 +97,12 @@ const BStrapDatagrid = ({
     ) : null
   }
 
+  function _renderRowActionDelete (row) {
+    return listActionDelete ? (
+      <td key={'datagrid-actions-delete'}>{listActionDelete(row)}</td>
+    ) : null
+  }
+
   function _onSelectAll (e) {
     e.target.checked ? onRowSelection('all') : onRowSelection([])
   }
@@ -100,7 +110,7 @@ const BStrapDatagrid = ({
   const selectable = onRowSelection !== undefined && isSelected !== undefined
 
   let tableChildren = state.loading ? (
-    <tr><td>Loading...</td></tr>
+    <tr><td><span className='glyphicon glyphicon-refresh glyphicon-refresh-animate' /> Loading...</td></tr>
   ) : state.items.length === 0 ? (
     <tr><td>EMPTY</td></tr>
   ) : state.items.map((r, i) => {
@@ -113,7 +123,7 @@ const BStrapDatagrid = ({
             <Checkbox checked={selected} inline={true} onChange={() => onRowSelection(i)}></Checkbox>
           </td>
         ) : null }
-        {TUtils.buildCells(attrs, fields, r, rowId, _renderCell, _renderRowActions)}
+        {TUtils.buildCells(attrs, fields, r, rowId, _renderCell, _renderRowActions, _renderRowActionDelete)}
       </tr>
     )
   })
@@ -128,7 +138,7 @@ const BStrapDatagrid = ({
                 onChange={_onSelectAll}></Checkbox>
             </th> : null }
             {
-              TUtils.buildHeaders(attrs, titles, _renderHeader, listActionsRender,
+              TUtils.buildHeaders(attrs, titles, _renderHeader, listActionsRender, listActionDeleteRender,
                 onSort, sortstate, noSort)
             }
           </tr>
