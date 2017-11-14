@@ -38,7 +38,7 @@ const SelectInput = ({
     return opts
   }
 
-  const toolTip = optionsattr && (
+  const toolTip = optionsattr && options && (
     <Tooltip id={optionsattr}>
       {options[0] && options[0].hasOwnProperty('parent') && options[0].hasOwnProperty('text')
         ? 'Enum ID: '
@@ -51,7 +51,7 @@ const SelectInput = ({
   return (
     <FormGroup controlId={attr} validationState={validationState}>
       <ControlLabel>{label}</ControlLabel>
-      {optionsattr &&
+      {label && optionsattr && options &&
         <OverlayTrigger placement='right' overlay={toolTip}>
           <span className='glyphicon glyphicon-list-alt' style={{fontSize: '0.75em', marginLeft: '0.7em'}}></span>
         </OverlayTrigger>}
