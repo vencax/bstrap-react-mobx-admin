@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap'
+import { FormGroup, ControlLabel, FormControl, HelpBlock, OverlayTrigger, Tooltip } from 'react-bootstrap'
 
 const SelectInput = ({
     attr, labelattr, valueattr, label, record, valueFilterFc,
@@ -38,11 +38,23 @@ const SelectInput = ({
     return opts
   }
 
+  const toolTip = optionsattr && (
+    <Tooltip id={optionsattr}>
+      {options[0] && options[0].hasOwnProperty('parent') && options[0].hasOwnProperty('text')
+        ? 'Enum ID: '
+        : 'Entity ID: '}
+      <strong>{optionsattr}</strong>
+    </Tooltip>
+  )
   const renderedOpts = options && options.length &&
     renderOptions(options, labelattr || 'label', valueattr, valueFilterFc)
   return (
     <FormGroup controlId={attr} validationState={validationState}>
       <ControlLabel>{label}</ControlLabel>
+      {optionsattr &&
+        <OverlayTrigger placement='right' overlay={toolTip}>
+          <span className='glyphicon glyphicon-list-alt' style={{fontSize: '0.75em', marginLeft: '0.7em'}}></span>
+        </OverlayTrigger>}
       <FormControl componentClass='select' placeholder='select'
         value={value || ''} onChange={handleChange}>
         {renderedOpts}
