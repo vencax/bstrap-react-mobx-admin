@@ -15,23 +15,25 @@ const PostEditForm = ({store}) => {
   const record = store.cv.record
   const errors = store.cv.errors
   const updateField = store.updateData.bind(store, store.cv)
+  const disabled = Number(record.get('id')) % 2 === 0
+
   return (
     <div className="row">
       <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6">
         <TextInput label={store.__('title')} attr={'title'} record={record}
-          onChange={updateField} errors={errors} />
+          onChange={updateField} errors={errors} disabled={disabled} />
         <SelectInput label={store.__('Category')} attr={'category'} record={record}
           optionsrecord={store.options}
           optionsattr={'categories'}
           onChange={updateField}
-          errors={errors} />
+          errors={errors} disabled={disabled} />
         <DateInput label={store.__('published')} attr={'published_at'} record={record}
-          onChange={updateField} errors={errors} />
+          onChange={updateField} errors={errors} disabled={disabled} />
         <DateInput label={store.__('unpublished')} attr={'unpublished_at'} record={record}
-          onChange={updateField} errors={errors} />
+          onChange={updateField} errors={errors} disabled={disabled} />
         <TextInput componentClass="textarea"
           label={store.__('content')} attr={'content'} record={record}
-          onChange={updateField} errors={errors} />
+          onChange={updateField} errors={errors} disabled={disabled} />
       </div>
       <div className="col-xs-12 col-md-6 col-lg-6">
         <MDPreview state={store} />

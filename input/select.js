@@ -5,7 +5,7 @@ import { FormGroup, ControlLabel, FormControl, HelpBlock, OverlayTrigger, Toolti
 
 const SelectInput = ({
     attr, labelattr, valueattr, label, record, valueFilterFc,
-    optionsrecord, optionsattr, errors, onChange, validationSuccess
+    optionsrecord, optionsattr, errors, onChange, validationSuccess, ...rest
   }) => {
   const errorText = errors ? errors.get(attr) : undefined
   const validationState = errorText ? 'error' : (validationSuccess ? 'success' : null)
@@ -56,7 +56,7 @@ const SelectInput = ({
           <span className='glyphicon glyphicon-list-alt' style={{fontSize: '0.75em', marginLeft: '0.7em'}}></span>
         </OverlayTrigger>}
       <FormControl componentClass='select' placeholder='select'
-        value={value || ''} onChange={handleChange}>
+        value={value || ''} onChange={handleChange} {...rest}>
         {renderedOpts}
       </FormControl>
       {errorText ? <HelpBlock>{errorText}</HelpBlock> : null}

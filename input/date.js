@@ -5,7 +5,7 @@ import DatePicker from 'react-datepicker'
 import moment from 'moment'
 import { FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap'
 
-const BStrapDateInput = ({attr, label, record, onChange, errors, validationSuccess, attrValue}) => {
+const BStrapDateInput = ({attr, label, record, onChange, errors, validationSuccess, attrValue, ...rest}) => {
   function handleChange (value) {
     onChange(attr, value)
   }
@@ -30,6 +30,7 @@ const BStrapDateInput = ({attr, label, record, onChange, errors, validationSucce
         showWeekNumbers
         showYearDropdown
         utcOffset={0}
+        {...rest}
         />
       {errorText ? <HelpBlock>{errorText}</HelpBlock> : null}
     </FormGroup>

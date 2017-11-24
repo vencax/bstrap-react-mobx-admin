@@ -11,13 +11,15 @@ const TagEditForm = ({store}) => {
   const record = store.cv.record
   const errors = store.cv.errors
   const updateField = store.updateData.bind(store, store.cv)
+  const disabled = Number(record.get('id')) % 2 === 0
 
   return (
     <div className="row">
       <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6">
         <TextInput label={store.__('name')} attr={'name'} record={record} onChange={updateField}
-          errors={errors} /><br/>
-        <BoolInput label={store.__('Published')} attr={'published'} record={record} onChange={updateField} />
+          errors={errors} disabled={disabled} />
+        <BoolInput label={store.__('Published')} attr={'published'} record={record}
+          disabled={disabled} onChange={updateField} />
       </div>
     </div>
   )
