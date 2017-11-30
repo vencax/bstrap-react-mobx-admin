@@ -7,13 +7,13 @@ import { FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap'
 
 const BStrapDateInput = ({attr, label, record, onChange, errors, validationSuccess, attrValue, ...rest}) => {
   function handleChange (value) {
-    onChange(attr, value)
+    onChange(attr, !value ? null : moment(value).format('YYYY-MM-DD'))
   }
 
   const errorText = errors ? errors.get(attr) : undefined
   const validationState = errorText ? 'error' : (validationSuccess ? 'success' : null)
-  let value = (attrValue && moment(attrValue)) ||
-    (attr && record.get(attr) && moment(record.get(attr)).isValid() ? moment(record.get(attr)) : '')
+  const value = (attrValue && moment(attrValue).isValid() && moment(attrValue)) ||
+    (attr && record.get(attr) && moment(record.get(attr)).isValid() ? moment(record.get(attr)) : null)
 
   return (
     <FormGroup validationState={validationState}>
@@ -25,7 +25,7 @@ const BStrapDateInput = ({attr, label, record, onChange, errors, validationSucce
         onChange={handleChange}
         peekNextMonth
         placeholderText='Enter date'
-        selected={typeof value === 'undefined' || value === null ? '' : value}
+        selected={value}
         showMonthDropdown
         showWeekNumbers
         showYearDropdown
