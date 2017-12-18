@@ -1,14 +1,14 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { FormGroup, ControlLabel, FormControl, HelpBlock, OverlayTrigger, Tooltip } from 'react-bootstrap'
+import { FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap'
 
 const SelectInput = ({
-    attr, labelattr, valueattr, label, record, valueFilterFc,
-    optionsrecord, optionsattr, errors, onChange, validationSuccess, ...rest
-  }) => {
+  attr, labelattr, valueattr, label, record,
+  optionsrecord, optionsattr, errors, onChange, ...rest
+}) => {
+  //
   const errorText = errors ? errors.get(attr) : undefined
-  const validationState = errorText ? 'error' : (validationSuccess ? 'success' : null)
+  const validationState = errorText ? 'error' : 'success'
   const value = record.get(attr)
   const options = optionsrecord.get(optionsattr || attr)
   valueattr = valueattr || 'value'
@@ -22,15 +22,11 @@ const SelectInput = ({
     onChange(attr, foundOpt[valueattr])
   }
 
-  function renderOptions (options, labelattr, valueattr, valueFilterFc) {
+  function renderOptions (options, labelattr, valueattr) {
     let opts = [<option key={'_null__'} value={''} />]
     let idx, val, c
     for (idx = 0; idx < options.length; idx++) {
       val = options[idx]
-
-      let jumpToNext = valueFilterFc && valueFilterFc(val)
-      if (jumpToNext) continue
-
       const text = (typeof labelattr === 'function') ? labelattr(val) : val[labelattr]
       c = <option key={idx} value={val[valueattr]}>{text}</option>
       opts.push(c)
@@ -38,25 +34,13 @@ const SelectInput = ({
     return opts
   }
 
-  const toolTip = optionsattr && options && (
-    <Tooltip id={optionsattr}>
-      {options[0] && options[0].hasOwnProperty('parent') && options[0].hasOwnProperty('text')
-        ? 'Enum ID: '
-        : 'Entity ID: '}
-      <strong>{optionsattr}</strong>
-    </Tooltip>
-  )
   const renderedOpts = options && options.length &&
-    renderOptions(options, labelattr || 'label', valueattr, valueFilterFc)
+    renderOptions(options, labelattr || 'label', valueattr)
   return (
     <FormGroup controlId={attr} validationState={validationState}>
       <ControlLabel>{label}</ControlLabel>
-      {label && optionsattr && options &&
-        <OverlayTrigger placement='right' overlay={toolTip}>
-          <span className='glyphicon glyphicon-list-alt' style={{fontSize: '0.75em', marginLeft: '0.7em'}}></span>
-        </OverlayTrigger>}
-      <FormControl componentClass='select' placeholder='select'
-        value={value || ''} onChange={handleChange} {...rest}>
+      <FormControl componentClass='select' placeholder='select' {...rest}
+        value={value || ''} onChange={handleChange}>
         {renderedOpts}
       </FormControl>
       {errorText ? <HelpBlock>{errorText}</HelpBlock> : null}
@@ -65,18 +49,18 @@ const SelectInput = ({
 }
 
 SelectInput.propTypes = {
-  attr: PropTypes.string.isRequired,
-  record: PropTypes.object.isRequired,
-  labelattr: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func
+  attr: React.PropTypes.string.isRequired,
+  record: React.PropTypes.object.isRequired,
+  labelattr: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.func
   ]),
-  valueattr: PropTypes.string,
-  label: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
-  optionsrecord: PropTypes.object.isRequired,
-  optionsattr: PropTypes.string,
-  errors: PropTypes.object
+  valueattr: React.PropTypes.string,
+  label: React.PropTypes.string,
+  onChange: React.PropTypes.func.isRequired,
+  optionsrecord: React.PropTypes.object.isRequired,
+  optionsattr: React.PropTypes.string,
+  errors: React.PropTypes.object
 }
 
 export default observer(SelectInput)

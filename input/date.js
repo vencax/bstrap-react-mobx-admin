@@ -1,50 +1,31 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import DatePicker from 'react-datepicker'
-import moment from 'moment'
+import DatePicker from 'react-bootstrap-date-picker'
 import { FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap'
 
-const BStrapDateInput = ({attr, label, record, onChange, errors, validationSuccess, attrValue, ...rest}) => {
-
-  const dateTimeFormat = 'YYYY-MM-DD'
-  const errorText = errors ? errors.get(attr) : undefined
-  const validationState = errorText ? 'error' : (validationSuccess ? 'success' : null)
-  const value = (attrValue && moment(attrValue).isValid() && moment(attrValue)) ||
-    (attr && record.get(attr) && moment(record.get(attr)).isValid() ? moment(record.get(attr)) : null)
-
+const BStrapDateInput = ({attr, label, record, onChange, errors, ...rest}) => {
+  //
   function handleChange (value) {
-    onChange(attr, !value || !moment(value).isValid() ? null : moment(value).format(dateTimeFormat))
+    onChange(attr, value)
   }
 
+  const errorText = errors ? errors.get(attr) : undefined
+
   return (
-    <FormGroup validationState={validationState}>
-      <ControlLabel>{label} {dateTimeFormat ? <small> ({dateTimeFormat})</small> : ''}</ControlLabel>
-      <DatePicker
-        dateFormat={dateTimeFormat}
-        dropdownMode='select'
-        locale='en-gb'
-        onChange={handleChange}
-        peekNextMonth
-        placeholderText='Click to open the calendar'
-        selected={value}
-        showMonthDropdown
-        showWeekNumbers
-        showYearDropdown
-        utcOffset={0}
-        {...rest}
-        />
+    <FormGroup validationState={errorText ? 'error' : 'success'}>
+      <ControlLabel>{label}</ControlLabel>
+      <DatePicker value={record.get(attr)} onChange={handleChange} {...rest} />
       {errorText ? <HelpBlock>{errorText}</HelpBlock> : null}
     </FormGroup>
   )
 }
 
 BStrapDateInput.propTypes = {
-  attr: PropTypes.string.isRequired,
-  record: PropTypes.object.isRequired,
-  label: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
-  errors: PropTypes.object
+  attr: React.PropTypes.string.isRequired,
+  record: React.PropTypes.object.isRequired,
+  label: React.PropTypes.string,
+  onChange: React.PropTypes.func.isRequired,
+  errors: React.PropTypes.object
 }
 
 export default observer(BStrapDateInput)
