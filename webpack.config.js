@@ -1,5 +1,12 @@
-var webpack = require('webpack')
 var path = require('path')
+var babelOptions = {
+  'presets': ['react', 'stage-0', ['es2015', {'modules': false}]],
+  'plugins': [
+    'transform-object-rest-spread',
+    'transform-decorators-legacy',
+    'transform-class-properties'
+  ]
+}
 
 module.exports = {
   devtool: 'inline-sourcemap',
@@ -12,7 +19,8 @@ module.exports = {
         // to allow babel to transpile!!!
         // E.g. /node_modules(?!\/react-mobx-admin)/
         exclude: /node_modules(?!(\\|\/)react-mobx-admin|(\\|\/)mobx-router)/,
-        loader: 'babel-loader'
+        loader: 'babel-loader',
+        options: babelOptions
       }
     ]
   },
@@ -24,8 +32,14 @@ module.exports = {
   // e.g.: import DataRequester from 'react-mobx-admin/services/requester'
   resolve: {
     alias: {
-      'bstrap-react-mobx-admin': __dirname,
-      'react-mobx-admin': path.join(__dirname, "node_modules/react-mobx-admin")
+      'bstrap-react-mobx-admin': __dirname
     }
+  },
+  externals: {
+    'axios': 'axios',
+    'mobx': 'mobx',
+    'mobx-react': 'mobxReact',
+    'react': 'React',
+    'react-dom': 'ReactDOM'
   }
 }
