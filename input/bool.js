@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Checkbox } from 'react-bootstrap'
 
-const BStrapBoolInput = ({attr, label, record, onChange, valuemapping, ...rest}) => {
+const BStrapBoolInput = ({attr, label, record, onChange, valuemapping, errors, ...rest}) => {
 
   const checked = Boolean(record.get(attr))
 
@@ -19,9 +19,10 @@ const BStrapBoolInput = ({attr, label, record, onChange, valuemapping, ...rest})
 
 BStrapBoolInput.propTypes = {
   attr: PropTypes.string.isRequired,
-  record: PropTypes.object.isRequired,
+  errors: PropTypes.object,
   label: PropTypes.string,
   onChange: PropTypes.func.isRequired,
+  record: PropTypes.object.isRequired,
   valuemapping: PropTypes.object
 }
 
