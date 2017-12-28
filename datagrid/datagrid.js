@@ -81,7 +81,7 @@ const BStrapDatagrid = ({
 
   const listActionDeleteRender = listActionDelete ? (
     <th key={'_actions-delete'}>{ listActionDelete() }</th>
-  ) : null    
+  ) : null
 
   function _renderCell (row, name, creatorFn, rowId) {
     return (
@@ -114,13 +114,12 @@ const BStrapDatagrid = ({
   ) : state.items.length === 0 ? (
     <tr><td>EMPTY</td></tr>
   ) : state.items.map((r, i) => {
-    const id = rowId(r)
     const selected = selectable && isSelected(i)
     return (
       <tr selected={selected} key={i}>
         { selectable ? (
           <td key='chbox'>
-            <Checkbox checked={selected} inline={true} onChange={() => onRowSelection(i)}></Checkbox>
+            <Checkbox checked={selected} inline onChange={() => onRowSelection(i)} />
           </td>
         ) : null }
         {TUtils.buildCells(attrs, fields, r, rowId, _renderCell, _renderRowActions, _renderRowActionDelete)}
@@ -134,12 +133,12 @@ const BStrapDatagrid = ({
         <thead>
           <tr>
             { selectable ? <th key='chbox'>
-              <Checkbox checked={allSelected} inline={true} bsClass='btn'
-                onChange={_onSelectAll}></Checkbox>
+              <Checkbox checked={allSelected} inline bsClass='btn'
+                onChange={_onSelectAll} />
             </th> : null }
             {
-              TUtils.buildHeaders(attrs, titles, _renderHeader, listActionsRender, listActionDeleteRender,
-                onSort, sortstate, noSort)
+              TUtils.buildHeaders(attrs, titles, _renderHeader, listActionsRender,
+                onSort, sortstate, noSort, listActionDeleteRender)
             }
           </tr>
         </thead>

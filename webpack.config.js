@@ -32,7 +32,8 @@ module.exports = {
   // e.g.: import DataRequester from 'react-mobx-admin/services/requester'
   resolve: {
     alias: {
-      'bstrap-react-mobx-admin': __dirname
+      'bstrap-react-mobx-admin': __dirname,
+      'react-mobx-admin': path.join(__dirname, 'node_modules/react-mobx-admin')
     }
   },
   externals: {

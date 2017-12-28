@@ -1,3 +1,4 @@
+/* global alert, confirm */
 import React from 'react'
 // import { observer } from 'mobx-react'
 import { DropdownButton, MenuItem, Button } from 'react-bootstrap'
@@ -12,9 +13,8 @@ import SelectInput from 'bstrap-react-mobx-admin/input/select'
 
 import ListView from 'bstrap-react-mobx-admin/view/list'
 
-
 const PostListView = ({store}) => {
-
+  //
   const _tagOptionComponent = ({attr, val}) => {
     function onClick () {
       alert('clicked tag ' + val)
@@ -28,27 +28,27 @@ const PostListView = ({store}) => {
   }
 
   const batchActions = (store) => {
-    function _batchDelete() {
-      if(confirm(`Are you sure you want to delete selected items?`)) {
-        store.deleteSelected()
+    function _batchDelete () {
+      if (confirm(`Are you sure you want to delete selected items?`)) {
+        store.cv.deleteSelected()
       }
     }
     return (
-      <DropdownButton title="actions" id="bg-nested-dropdown">
-        <MenuItem eventKey="1" onClick={() => _batchDelete()}>delete</MenuItem>
+      <DropdownButton title='actions' id='bg-nested-dropdown'>
+        <MenuItem eventKey='1' onClick={() => _batchDelete()}>delete</MenuItem>
       </DropdownButton>
     )
   }
 
   const listActions = (row) => {
-    function _deleteRow(row) {
-      if(confirm(`Are you sure you want to delete ${row.title}?`)) {
-        store.deleteData([row])
+    function _deleteRow (row) {
+      if (confirm(`Are you sure you want to delete ${row.title}?`)) {
+        store.cv.deleteData([row])
       }
     }
     return row ? (
       <div>
-        <Button onClick={(e)=>  _deleteRow(row)}>delete</Button>
+        <Button onClick={(e) => _deleteRow(row)}>delete</Button>
       </div>
     ) : null
   }
@@ -76,17 +76,24 @@ const PostListView = ({store}) => {
   ]
 
   const filters = {
-    'category': {title: 'Category', icon: null, component: (props) => (<SelectInput {...props}
-      optionsrecord={store.options}
-      optionsattr={'categories'} />)},
-    'title_like': {title: 'Title', icon: null, component: (props) => (<TextInput {...props} />)}
+    'category': {
+      title: 'Category',
+      icon: null,
+      component: (props) => (
+        <SelectInput {...props} optionsrecord={store.options} optionsattr={'categories'} />
+      )
+    },
+    'title_like': {
+      title: 'Title',
+      icon: null,
+      component: (props) => (<TextInput {...props} />)
+    }
   }
 
   return (
-    <ListView store={store} fields={fields} listActions={listActions} filters={filters}
+    <ListView store={store.cv} fields={fields} listActions={listActions} filters={filters}
       batchActions={batchActions} onAddClicked={store.addClicked.bind(store)} />
   )
-
 }
 
 export default PostListView

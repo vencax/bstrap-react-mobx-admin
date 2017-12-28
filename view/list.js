@@ -11,8 +11,7 @@ const BStrapListView = ({
   store, onAddClicked, fields, filters, listActions, batchActions, renderOuter, perPageOptions
 }) => {
   //
-  const cv = store.cv
-  const nbPages = parseInt(store.cv.totalItems)
+  const nbPages = parseInt(store.totalItems)
   const perPageTitle = store.router.queryParams._perPage || ''
   perPageOptions = perPageOptions || [5, 10, 15, 20, 50, 100]
 
@@ -28,12 +27,12 @@ const BStrapListView = ({
   }
 
   function isSelected (idx) {
-    return cv.selection.indexOf(idx) >= 0
+    return store.selection.indexOf(idx) >= 0
   }
 
-  const allSelected = cv.selection.length > 0 && cv.selection.length === cv.items.length
+  const allSelected = store.selection.length > 0 && store.selection.length === store.items.length
 
-  const filtersRender = (filters && cv.state === 'ready') ? (
+  const filtersRender = (filters && store.state === 'ready') ? (
     <Filters.Controls state={store}
       hideFilter={store.hideFilter.bind(store)} filters={filters} />
   ) : null
@@ -57,7 +56,7 @@ const BStrapListView = ({
         {nbPages > 5 && perPageRender}
       </div>
       <div className='pull-left'>
-        <div><Pagination.PageInfo info={cv} query={store.router.queryParams} /></div>
+        <div><Pagination.PageInfo info={store} query={store.router.queryParams} /></div>
       </div>
     </div>
   )
@@ -73,19 +72,19 @@ const BStrapListView = ({
               <Filters.Dropdown state={store} title='addfilter' filters={filters}
                 showFilter={store.showFilter.bind(store)} />
             )}
-            {onAddClicked && <Button bsStyle='primary' onClick={() => onAddClicked(store)}>{cv.addText || '+'}</Button>}
+            {onAddClicked && <Button bsStyle='primary' onClick={() => onAddClicked(store)}>{store.addText || '+'}</Button>}
           </ButtonGroup>
         </div>
-        {cv.title ? <h4 className='card-title'>{cv.title}</h4> : null}
+        {store.title ? <h4 className='card-title'>{store.title}</h4> : null}
       </div>
       { filtersRender }
       <div className='card-block'>
-        <Datagrid state={cv} attrs={cv.attrs}
-          titles={cv.headertitles} fields={fields}
-          rowId={(row) => row[cv.pkName]}
+        <Datagrid state={store} attrs={store.attrs}
+          titles={store.headertitles} fields={fields}
+          rowId={(row) => row[store.pkName]}
           listActions={listActions}
           onSort={store.updateSort.bind(store)} sortstate={store.router.queryParams}
-          noSort={cv.noSort}
+          noSort={store.noSort}
           onRowSelection={onSelectionChange} isSelected={isSelected}
           allSelected={allSelected} filters={filters}
           updateFilterVal={store.updateFilterValue.bind(store)}

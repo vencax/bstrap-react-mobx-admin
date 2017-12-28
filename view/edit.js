@@ -3,7 +3,7 @@ import {observer} from 'mobx-react'
 
 const SubmitButton = observer(({ errors, text, onSubmit, hasChanged }) => (
   errors ? (
-    <button type="button" className="btn btn-primary"
+    <button type='button' className='btn btn-primary'
       disabled={errors.size > 0 || ! hasChanged()} onClick={onSubmit}>{text}</button>
   ) : null
 ))
@@ -65,41 +65,40 @@ const GlobalErrors = observer(({errors}) => {
 
   render({store, onSave, onReturn2list, children} = this.props) {
 
-    const cv = store.cv
-    const loading = cv.state === 'loading' || cv.state === 'saving'
+    const loading = store.state === 'loading' || store.state === 'saving'
 
     if(loading) {
-      return <span className="is-loading">loading</span>
+      return <span className='is-loading'>loading</span>
     }
 
-    const title = cv.origRecordId ?
-      (cv.edittitle || 'edit item') :
-      (cv.createtitle || 'create new item')
-    const saveText = cv.saveText || 'SAVE'
-    const cancelText = cv.cancelText || 'cancel'
+    const title = store.origRecordId ?
+      (store.edittitle || 'edit item') :
+      (store.createtitle || 'create new item')
+    const saveText = store.saveText || 'SAVE'
+    const cancelText = store.cancelText || 'cancel'
 
     const actionButtons = (
-      <div className="btn-group" role="group">
-        <SubmitButton onSubmit={onSave} errors={cv.errors} text={saveText} hasChanged={()=>(store.isEntityChanged)}/>
-        <SubmitButton onSubmit={()=>onSave(onReturn2list)} errors={cv.errors}
-          text={cv.saveAndReturnText || 'SAVE and return'} hasChanged={()=>(store.isEntityChanged)} />
-        <button type="button" className="btn btn-default" onClick={onReturn2list}>{cancelText}</button>
+      <div className='btn-group' role='group'>
+        <SubmitButton onSubmit={onSave} errors={store.errors} text={saveText} hasChanged={()=>(store.isEntityChanged)}/>
+        <SubmitButton onSubmit={()=>onSave().then(()=>onReturn2list())} errors={store.errors}
+          text={store.saveAndReturnText || 'SAVE and return'} hasChanged={()=>(store.isEntityChanged)} />
+        <button type='button' className='btn btn-default' onClick={onReturn2list}>{cancelText}</button>
       </div>
     )
 
     return (
-      <div className="card">
-        <div className="card-block">
-          <h4 className="card-title">{title}</h4>
+      <div className='card'>
+        <div className='card-block'>
+          <h4 className='card-title'>{title}</h4>
           { actionButtons }
         </div>
 
-        <div className="card-block">
+        <div className='card-block'>
           <form>{children}</form>
-          <GlobalErrors errors={cv.errors} />
+          <GlobalErrors errors={store.errors} />
         </div>
 
-        <div className="card-block">
+        <div className='card-block'>
           { actionButtons }
         </div>
       </div>
