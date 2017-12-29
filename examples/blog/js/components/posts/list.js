@@ -53,11 +53,11 @@ const PostListView = ({store}) => {
     ) : null
   }
 
-  const _tagComponent = ({value, ...rest}) => {
-    return <TagField key={value.id} attr={'a'} val={value.name}
-      optionsrecord={store.options} optionsattr={'tags'}
-      labelattr={'name'} valueattr={'id'} />
-  }
+  // const _tagComponent = ({value, ...rest}) => {
+  //   return <TagField key={value.id} attr={'a'} val={value.name}
+  //     optionsrecord={store.options} optionsattr={'tags'}
+  //     labelattr={'name'} valueattr={'id'} />
+  // }
 
   const fields = [
     (attr, row) => (<TextField attr={attr} val={row[attr]} />),
@@ -68,7 +68,7 @@ const PostListView = ({store}) => {
       return <TextField attr={attr} val={row[attr]} Component={DetailLink} />
     },
     (attr, row) => (
-      <OptionsField attr={attr} val={row[attr]} optionsrecord={store.options} optionsattr={'categories'} />
+      <OptionsField attr={attr} val={row[attr]} options={store.options.get('categories')} />
     ),
     (attr, row) => (<DateField attr={attr} val={row[attr]} />),
     (attr, row) => (<DateField attr={attr} val={row[attr]} />),
