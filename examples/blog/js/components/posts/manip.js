@@ -42,7 +42,7 @@ const PostEditForm = ({store}) => {
 }
 
 const PostEditView = ({store}) => (
-  <EditView store={store.cv} onReturn2list={store.onReturn2list.bind(store)} onSave={store.cv.save.bind(store.cv)}>
+  <EditView store={store.cv} onReturn2list={store.onReturn2list.bind(store)}>
     <PostEditForm store={store} />
   </EditView>
 )

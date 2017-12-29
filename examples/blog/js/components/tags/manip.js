@@ -25,13 +25,9 @@ TagEditForm.propTypes = {
   store: PropTypes.object.isRequired
 }
 
-const TagsEditView = ({store}) => {
-  const save = store.cv.save.bind(store.cv)
-  const onReturn2list = store.onReturn2list.bind(store)
-  return (
-    <EditView store={store.cv} onReturn2list={onReturn2list} onSave={save}>
-      <TagEditForm store={store} />
-    </EditView>
-  )
-}
+const TagsEditView = ({store}) => (
+  <EditView store={store.cv} onReturn2list={store.onReturn2list.bind(store)}>
+    <TagEditForm store={store} />
+  </EditView>
+)
 export default TagsEditView

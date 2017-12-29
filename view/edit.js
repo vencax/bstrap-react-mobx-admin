@@ -66,6 +66,7 @@ const GlobalErrors = observer(({errors}) => {
   render({store, onSave, onReturn2list, children} = this.props) {
 
     const loading = store.state === 'loading' || store.state === 'saving'
+    onSave = onSave || store.save.bind(store)
 
     if(loading) {
       return <span className='is-loading'>loading</span>
