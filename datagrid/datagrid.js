@@ -39,38 +39,15 @@ BStrapHeader.propTypes = {
 const BStrapDatagrid = ({
   state, attrs, fields, titles, rowId, isSelected, noSort,
   onRowSelection, onSort, sortstate, listActions, listActionDelete, allSelected,
-  filters, updateFilterVal, applyFilters, hideFilter, isFilterApplied
+  filters
 }) => {
   //
   function _renderHeader (name, label, sort, onSort) {
-    let filtername = null
-    const filter = filters && _.find(filters, (v, k) => {
-      filtername = k
-      return k.indexOf(name) >= 0
-    })
     return (
       <th key={`th_${name}`}>
         <BStrapHeader
           sort={sort} name={name} label={label}
           onSort={noSort && noSort.some(n => n === name) ? null : onSort} />
-        {filter ? (
-          <InputGroup>
-            {
-              isFilterApplied(filtername)
-              ? <Button onClick={() => hideFilter(filtername)} style={{float: 'left'}}>x</Button>
-              : null
-            }
-            <div style={{float: 'right'}}>
-              <filter.component record={state.filters}
-                attr={filtername} onChange={updateFilterVal} onKeyPress={(e) => {
-                  if (e.charCode === 13) {
-                    e.preventDefault()
-                    applyFilters()
-                  }
-                }} />
-            </div>
-          </InputGroup>
-        ) : null}
       </th>
     )
   }
@@ -97,12 +74,6 @@ const BStrapDatagrid = ({
     ) : null
   }
 
-  function _renderRowActionDelete (row) {
-    return listActionDelete ? (
-      <td key={'datagrid-actions-delete'}>{listActionDelete(row)}</td>
-    ) : null
-  }
-
   function _onSelectAll (e) {
     e.target.checked ? onRowSelection('all') : onRowSelection([])
   }
@@ -122,7 +93,7 @@ const BStrapDatagrid = ({
             <Checkbox checked={selected} inline onChange={() => onRowSelection(i)} />
           </td>
         ) : null }
-        {TUtils.buildCells(attrs, fields, r, rowId, _renderCell, _renderRowActions, _renderRowActionDelete)}
+        {TUtils.buildCells(attrs, fields, r, rowId, _renderCell, _renderRowActions)}
       </tr>
     )
   })
@@ -141,6 +112,21 @@ const BStrapDatagrid = ({
                 onSort, sortstate, noSort, listActionDeleteRender)
             }
           </tr>
+          {
+            filters ? (
+              <tr className='filter-row'>
+                {
+                  selectable ? <th key='0'></th> : null
+                }
+                {
+                  filters.map((i, idx) => <th key={idx}>{i}</th>)
+                }
+                {
+                  listActions ? <th key='0'></th> : null
+                }
+              </tr>
+            ) : null
+          }
         </thead>
       ) : null}
       <tbody>{tableChildren}</tbody>

@@ -12,6 +12,7 @@ const BStrapListView = ({
 }) => {
   //
   const nbPages = parseInt(store.totalItems)
+  filters = filters && filters.call ? filters() : filters
   const perPageTitle = store.router.queryParams._perPage || ''
   perPageOptions = perPageOptions || [5, 10, 15, 20, 50, 100]
 
@@ -60,6 +61,7 @@ const BStrapListView = ({
       </div>
     </div>
   )
+  const filterRow = filters ? Filters.FilterRow(filters, store) : null
 
   const result = (
     <div className='card'>
@@ -86,13 +88,7 @@ const BStrapListView = ({
           onSort={store.updateSort.bind(store)} sortstate={store.router.queryParams}
           noSort={store.noSort}
           onRowSelection={onSelectionChange} isSelected={isSelected}
-          allSelected={allSelected} filters={filters}
-          updateFilterVal={store.updateFilterValue.bind(store)}
-          applyFilters={store.applyFilters.bind(store)}
-          hideFilter={store.hideFilter.bind(store)}
-          isFilterApplied={(filtername) => {
-            return filtername in store.appliedFilters
-          }} />
+          allSelected={allSelected} filters={filterRow} />
       </div>
       { pagination }
     </div>

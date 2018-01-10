@@ -51,7 +51,7 @@ class Controls extends FilterBases.ControlsBase {
         <InputGroup>
           <Button onClick={onHide} style={{float: 'left'}}>x</Button>
           <div style={{float: 'right'}}>
-            <filter.component record={state.cv.filters} attr={name} onChange={onUpdateValue}
+            <filter.component record={state.filters} attr={name} onChange={onUpdateValue}
               onKeyPress={(e) => {
                 if (e.charCode === 13) {
                   e.preventDefault()
@@ -79,4 +79,35 @@ const Apply = observer(({ apply, label, state }) => {
   return show && (<Button onClick={apply}>{label}</Button>)
 })
 
-export default { Dropdown, Controls, Apply }
+
+const FilterRow = (filters, store) => {
+  return store.attrs.map(attr => {
+    let filtername
+    const filter = _.find(filters, (v, k) => {
+      filtername = k
+      return filtername.indexOf(attr) >= 0
+    })
+    const isApplied = filtername in store.appliedFilters
+    return filter ? (
+      <InputGroup>
+        {
+          isApplied ? (
+            <InputGroup.Button>
+              <Button onClick={() => store.hideFilter(filtername)}>x</Button>
+            </InputGroup.Button>
+          ) : null
+        }
+        <filter.component record={store.filters}
+          attr={filtername} onChange={store.updateFilterValue.bind(store)}
+          onKeyPress={(e) => {
+            if (e.charCode === 13) {
+              e.preventDefault()
+              store.applyFilters()
+            }
+          }} />
+      </InputGroup>
+    ) : null
+  })
+}
+
+export default { Dropdown, Controls, Apply, FilterRow }
