@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Checkbox, InputGroup, Button } from 'react-bootstrap'
-import _ from 'lodash'
-import * as TUtils from 'react-mobx-admin/components/common/datagrid/table'
+import { Checkbox, Button } from 'react-bootstrap'
+import {
+  buildHeaders, buildCells
+} from 'react-mobx-admin/components/common/datagrid/table'
 
 const BStrapHeader = ({label, sort, name, onSort}) => {
   //
@@ -88,12 +89,16 @@ const BStrapDatagrid = ({
     const selected = selectable && isSelected(i)
     return (
       <tr selected={selected} key={i}>
-        { selectable ? (
-          <td key='chbox'>
-            <Checkbox checked={selected} inline onChange={() => onRowSelection(i)} />
-          </td>
-        ) : null }
-        {TUtils.buildCells(attrs, fields, r, rowId, _renderCell, _renderRowActions)}
+        {
+          selectable ? (
+            <td key='chbox'>
+              <Checkbox checked={selected} inline onChange={() => onRowSelection(i)} />
+            </td>
+          ) : null
+        }
+        {
+          buildCells(attrs, fields, r, rowId, _renderCell, _renderRowActions)
+        }
       </tr>
     )
   })
@@ -108,7 +113,7 @@ const BStrapDatagrid = ({
                 onChange={_onSelectAll} />
             </th> : null }
             {
-              TUtils.buildHeaders(attrs, titles, _renderHeader, listActionsRender,
+              buildHeaders(attrs, titles, _renderHeader, listActionsRender,
                 onSort, sortstate, noSort, listActionDeleteRender)
             }
           </tr>
@@ -116,13 +121,13 @@ const BStrapDatagrid = ({
             filters ? (
               <tr className='filter-row'>
                 {
-                  selectable ? <th key='0'></th> : null
+                  selectable ? <th key='0' /> : null
                 }
                 {
                   filters.map((i, idx) => <th key={idx}>{i}</th>)
                 }
                 {
-                  listActions ? <th key='0'></th> : null
+                  listActions ? <th key='0' /> : null
                 }
               </tr>
             ) : null
