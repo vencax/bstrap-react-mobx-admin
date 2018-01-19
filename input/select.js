@@ -5,13 +5,13 @@ import { FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap
 
 const SelectInput = ({
   attr, labelattr, valueattr, label, record,
-  optionsrecord, optionsattr, errors, onChange, ...rest
+  options, optionsrecord, optionsattr, errors, onChange, ...rest
 }) => {
   //
   const errorText = errors ? errors.get(attr) : undefined
   const validationState = errorText ? 'error' : 'success'
   const value = record.get(attr)
-  const options = optionsrecord.get(optionsattr || attr)
+  options = options || optionsrecord.get(optionsattr || attr)
   valueattr = valueattr || 'value'
 
   function handleChange (evt) {
