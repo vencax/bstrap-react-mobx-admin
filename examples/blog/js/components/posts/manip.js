@@ -7,31 +7,31 @@ import SelectInput from 'bstrap-react-mobx-admin/input/select'
 import EditView from 'bstrap-react-mobx-admin/view/edit'
 
 const MDPreview = observer(({state}) => {
-  const value = state.cv.record.get('content')
+  const value = state.record.get('content')
   return value ? <div dangerouslySetInnerHTML={{__html: marked(value)}} /> : null
 })
 
-const PostEditForm = ({store}) => {
-  const record = store.cv.record
-  const errors = store.cv.errors
-  const updateField = store.cv.updateData.bind(store.cv)
+const PostEditForm = ({store, options, __}) => {
+  const record = store.record
+  const errors = store.errors
+  const updateField = store.updateData.bind(store)
   const disabled = Number(record.get('id')) % 2 === 0
   return (
     <div className='row'>
       <div className='col-xs-12 col-sm-12 col-md-6 col-lg-6'>
-        <TextInput label={store.__('title')} attr={'title'} record={record}
+        <TextInput label={__('title')} attr={'title'} record={record}
           onChange={updateField} errors={errors} disabled={disabled} />
-        <SelectInput label={store.__('Category')} attr={'category'} record={record}
-          optionsrecord={store.options}
+        <SelectInput label={__('Category')} attr={'category'} record={record}
+          optionsrecord={options}
           optionsattr={'categories'}
           onChange={updateField}
           errors={errors} disabled={disabled} />
-        <DateInput label={store.__('published')} attr={'published_at'} record={record}
+        <DateInput label={__('published')} attr={'published_at'} record={record}
           onChange={updateField} errors={errors} disabled={disabled} />
-        <DateInput label={store.__('unpublished')} attr={'unpublished_at'} record={record}
+        <DateInput label={__('unpublished')} attr={'unpublished_at'} record={record}
           onChange={updateField} errors={errors} disabled={disabled} />
         <TextInput componentClass='textarea'
-          label={store.__('content')} attr={'content'} record={record}
+          label={__('content')} attr={'content'} record={record}
           onChange={updateField} errors={errors} disabled={disabled} />
       </div>
       <div className='col-xs-12 col-md-6 col-lg-6'>
@@ -43,7 +43,8 @@ const PostEditForm = ({store}) => {
 
 const PostEditView = ({store}) => (
   <EditView store={store.cv} onReturn2list={store.onReturn2list.bind(store)}>
-    <PostEditForm store={store} />
+    <PostEditForm store={store.cv}
+      __={store.__.bind(store)} options={store.options} />
   </EditView>
 )
 export default PostEditView

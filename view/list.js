@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import ListStore from 'react-mobx-admin/state/data_table'
 import Datagrid from '../datagrid/datagrid'
 import Filters from '../datagrid/filters'
 import Pagination from '../datagrid/pagination'
@@ -98,7 +99,13 @@ const BStrapListView = ({
 }
 
 BStrapListView.propTypes = {
-  store: PropTypes.object.isRequired,
-  renderOuter: PropTypes.func
+  store: PropTypes.instanceOf(ListStore).isRequired,
+  renderOuter: PropTypes.func,
+  onAddClicked: PropTypes.func,
+  fields: PropTypes.arrayOf(PropTypes.func).isRequired,
+  filters: PropTypes.object,
+  listActions: PropTypes.func,
+  batchActions: PropTypes.func,
+  perPageOptions: PropTypes.arrayOf(PropTypes.number)
 }
 export default observer(BStrapListView)

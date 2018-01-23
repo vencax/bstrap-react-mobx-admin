@@ -1,5 +1,7 @@
 import React from 'react'
 import {observer} from 'mobx-react'
+import PropTypes from 'prop-types'
+import ManipStore from 'react-mobx-admin/state/data_manip'
 
 const SubmitButton = observer(({ errors, text, onSubmit, hasChanged }) => (
   errors ? (
@@ -21,6 +23,12 @@ const GlobalErrors = observer(({errors}) => {
 })
 
 @observer export default class BStrapEditView extends React.Component {
+
+  static propTypes = {
+    store: PropTypes.instanceOf(ManipStore).isRequired,
+    onSave: PropTypes.func,
+    onReturn2list: PropTypes.func
+  }
 
   constructor (props) {
     super(props)
@@ -81,9 +89,20 @@ const GlobalErrors = observer(({errors}) => {
     const actionButtons = (
       <div className='btn-group' role='group'>
         <SubmitButton onSubmit={onSave} errors={store.errors} text={saveText} hasChanged={()=>(store.isEntityChanged)}/>
-        <SubmitButton onSubmit={()=>onSave().then(()=>onReturn2list())} errors={store.errors}
-          text={store.saveAndReturnText || 'SAVE and return'} hasChanged={()=>(store.isEntityChanged)} />
-        <button type='button' className='btn btn-default' onClick={onReturn2list}>{cancelText}</button>
+        {
+          onReturn2list ? (
+            <SubmitButton onSubmit={()=>onSave().then(()=>onReturn2list())}
+              errors={store.errors} text={store.saveAndReturnText || 'SAVE and return'}
+              hasChanged={()=>(store.isEntityChanged)} />
+          ) : null
+        }
+        {
+          onReturn2list ? (
+            <button type='button' className='btn btn-default' onClick={onReturn2list}>
+              {cancelText}
+            </button>
+          ) : null
+        }
       </div>
     )
 
