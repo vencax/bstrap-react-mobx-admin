@@ -28,7 +28,9 @@ TagEditForm.propTypes = {
 }
 
 const TagsEditView = ({store}) => (
-  <EditView store={store.cv} onReturn2list={store.onReturn2list.bind(store)}>
+  <EditView store={store.cv}
+    onReturn2list={store.onReturn2list.bind(store)}
+    buttonOnTop={false}>
     <TagEditForm store={store.cv} __={store.__.bind(store)} />
   </EditView>
 )

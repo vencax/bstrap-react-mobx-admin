@@ -3,12 +3,14 @@ import {observer} from 'mobx-react'
 import PropTypes from 'prop-types'
 import ManipStore from 'react-mobx-admin/state/data_manip'
 
-const SubmitButton = observer(({ errors, text, onSubmit, hasChanged }) => (
-  errors ? (
-    <button type='button' className='btn btn-primary'
-      disabled={errors.size > 0 || ! hasChanged()} onClick={onSubmit}>{text}</button>
+const _SubmitButton = ({ errors, onSubmit, hasChanged, children, ...rest }) => {
+  const disabled = errors.size > 0 || (hasChanged && !hasChanged())
+  return errors ? (
+    <button type='button' className='btn btn-primary' {...rest}
+      disabled={disabled} onClick={onSubmit}>{children}</button>
   ) : null
-))
+}
+const SubmitButton = observer(_SubmitButton)
 
 const GlobalErrors = observer(({errors}) => {
   return errors.has('_global') ? (
@@ -22,12 +24,13 @@ const GlobalErrors = observer(({errors}) => {
   ) : null
 })
 
-@observer export default class BStrapEditView extends React.Component {
+@observer class EditView extends React.Component {
 
   static propTypes = {
     store: PropTypes.instanceOf(ManipStore).isRequired,
     onSave: PropTypes.func,
-    onReturn2list: PropTypes.func
+    onReturn2list: PropTypes.func,
+    buttonOnTop: PropTypes.bool
   }
 
   constructor (props) {
@@ -71,10 +74,11 @@ const GlobalErrors = observer(({errors}) => {
     e.onKeyDownActions && e.preventDefault() && e.stopPropagation()
   }
 
-  render({store, onSave, onReturn2list, children} = this.props) {
+  render({store, onSave, onReturn2list, children, buttonOnTop} = this.props) {
 
     const loading = store.state === 'loading' || store.state === 'saving'
     onSave = onSave || store.save.bind(store)
+    buttonOnTop = buttonOnTop !== undefined ? buttonOnTop : true
 
     if(loading) {
       return <span className='is-loading'>loading</span>
@@ -85,15 +89,19 @@ const GlobalErrors = observer(({errors}) => {
       (store.createtitle || 'create new item')
     const saveText = store.saveText || 'SAVE'
     const cancelText = store.cancelText || 'cancel'
+    const hasChanged = ()=>(store.isEntityChanged)
 
     const actionButtons = (
       <div className='btn-group' role='group'>
-        <SubmitButton onSubmit={onSave} errors={store.errors} text={saveText} hasChanged={()=>(store.isEntityChanged)}/>
+        <SubmitButton onSubmit={onSave} errors={store.errors} hasChanged={hasChanged}>
+          {saveText}
+        </SubmitButton>
         {
           onReturn2list ? (
             <SubmitButton onSubmit={()=>onSave().then(()=>onReturn2list())}
-              errors={store.errors} text={store.saveAndReturnText || 'SAVE and return'}
-              hasChanged={()=>(store.isEntityChanged)} />
+              errors={store.errors} hasChanged={hasChanged}>
+              {store.saveAndReturnText || 'SAVE and return'}
+            </SubmitButton>
           ) : null
         }
         {
@@ -110,7 +118,7 @@ const GlobalErrors = observer(({errors}) => {
       <div className='card'>
         <div className='card-block'>
           <h4 className='card-title'>{title}</h4>
-          { actionButtons }
+          { buttonOnTop ? actionButtons : null }
         </div>
 
         <div className='card-block'>
@@ -125,3 +133,5 @@ const GlobalErrors = observer(({errors}) => {
     )
   }
 }
+export default EditView
+export {SubmitButton, GlobalErrors, EditView}
