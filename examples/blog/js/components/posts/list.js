@@ -3,10 +3,10 @@ import React from 'react'
 // import { observer } from 'mobx-react'
 import { DropdownButton, MenuItem, Button } from 'react-bootstrap'
 
-import OptionsField from 'react-mobx-admin/components/common//field/opts'
-import MultivalueField from 'react-mobx-admin/components/common/field/multivalue'
-import TextField from 'react-mobx-admin/components/common/field/text'
-import DateField from 'react-mobx-admin/components/common/field/date'
+import OptionsField from 'react-mobx-admin/components/field/opts'
+import MultivalueField from 'react-mobx-admin/components/field/multivalue'
+import TextField from 'react-mobx-admin/components/field/text'
+import DateField from 'react-mobx-admin/components/field/date'
 
 import TextInput from 'bstrap-react-mobx-admin/input/text'  // for filters
 import SelectInput from 'bstrap-react-mobx-admin/input/select'
@@ -52,6 +52,7 @@ const PostListView = ({store}) => {
       </div>
     ) : null
   }
+  const listActionDelete = (row) => <Button onClick={() => alert(row)} />
 
   // const _tagComponent = ({value, ...rest}) => {
   //   return <TagField key={value.id} attr={'a'} val={value.name}
@@ -91,7 +92,9 @@ const PostListView = ({store}) => {
   }
 
   return (
-    <ListView store={store.cv} fields={fields} listActions={listActions} filters={filters}
+    <ListView store={store.cv} fields={fields}
+      listActions={listActions}
+      filters={filters}
       batchActions={batchActions} onAddClicked={store.addClicked.bind(store)} />
   )
 }

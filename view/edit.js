@@ -1,7 +1,7 @@
 import React from 'react'
 import {observer} from 'mobx-react'
 import PropTypes from 'prop-types'
-import ManipStore from 'react-mobx-admin/state/data_manip'
+import ManipStore from 'react-mobx-admin/store/manip'
 
 const _SubmitButton = ({ errors, onSubmit, hasChanged, children, ...rest }) => {
   const disabled = errors.size > 0 || (hasChanged && !hasChanged())

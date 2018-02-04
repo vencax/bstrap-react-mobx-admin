@@ -1,8 +1,8 @@
 /* global confirm */
 import React from 'react'
-import { DropdownButton, MenuItem } from 'react-bootstrap'
+import { DropdownButton, MenuItem, Button } from 'react-bootstrap'
 
-import TextField from 'react-mobx-admin/components/common/field/text'
+import TextField from 'react-mobx-admin/components/field/text'
 import BoolField from 'bstrap-react-mobx-admin/field/bool'
 import ListView from 'bstrap-react-mobx-admin/view/list'
 
@@ -21,6 +21,8 @@ const TagListView = ({store}) => {
     )
   }
 
+  const listActionDelete = (row) => <Button onClick={() => alert(row)} />
+
   const fields = [
     (attr, row) => (<TextField attr={attr} val={row[attr]} />),
     (attr, row) => {
@@ -34,7 +36,9 @@ const TagListView = ({store}) => {
 
   return (
     <ListView store={store.cv} fields={fields}
-      batchActions={batchActions} onAddClicked={store.addClicked.bind(store)} />
+      batchActions={batchActions}
+      onAddClicked={store.addClicked.bind(store)}
+      listActionDelete={listActionDelete} />
   )
 }
 

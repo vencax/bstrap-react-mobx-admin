@@ -4,7 +4,7 @@ import { observer } from 'mobx-react'
 import { Checkbox, Button } from 'react-bootstrap'
 import {
   buildHeaders, buildCells
-} from 'react-mobx-admin/components/common/datagrid/table'
+} from 'react-mobx-admin/components/datagrid/table'
 
 const BStrapHeader = ({label, sort, name, onSort}) => {
   //
@@ -53,26 +53,12 @@ const BStrapDatagrid = ({
     )
   }
 
-  const listActionsRender = listActions ? (
-    <th key={'_actions'}>{ listActions() }</th>
-  ) : null
-
-  const listActionDeleteRender = listActionDelete ? (
-    <th key={'_actions-delete'}>{ listActionDelete() }</th>
-  ) : null
-
   function _renderCell (row, name, creatorFn, rowId) {
     return (
       <td key={`td_${rowId}_${name}`}>
         {creatorFn(name, row)}
       </td>
     )
-  }
-
-  function _renderRowActions (row) {
-    return listActions ? (
-      <td key={'datagrid-actions'}>{listActions(row)}</td>
-    ) : null
   }
 
   function _onSelectAll (e) {
@@ -97,7 +83,10 @@ const BStrapDatagrid = ({
           ) : null
         }
         {
-          buildCells(attrs, fields, r, rowId, _renderCell, _renderRowActions)
+          buildCells(attrs, fields, r, rowId, _renderCell)
+        }
+        {
+          listActions ? (<td key={'lst-acts'}>{listActions(r)}</td>) : null
         }
       </tr>
     )
@@ -108,26 +97,40 @@ const BStrapDatagrid = ({
       {titles ? (
         <thead>
           <tr>
-            { selectable ? <th key='chbox'>
-              <Checkbox checked={allSelected} inline bsClass='btn'
-                onChange={_onSelectAll} />
-            </th> : null }
             {
-              buildHeaders(attrs, titles, _renderHeader, listActionsRender,
-                onSort, sortstate, noSort, listActionDeleteRender)
+              selectable ? (
+                <th key='chbox'>
+                  <Checkbox checked={allSelected} inline bsClass='btn'
+                    onChange={_onSelectAll} />
+                </th>
+              ) : null
+            }
+            {
+              listActionDelete ? (
+                <th key={'_actions-delete'}>{ listActionDelete() }</th>
+              ) : null
+            }
+            {
+              buildHeaders(attrs, titles, _renderHeader, onSort, sortstate, noSort)
+            }
+            {
+              listActions ? (<th key={'_actions'}>{ listActions() }</th>) : null
             }
           </tr>
           {
             filters ? (
               <tr className='filter-row'>
                 {
-                  selectable ? <th key='0' /> : null
+                  selectable ? <th key='s' /> : null
+                }
+                {
+                  listActionDelete ? <th key='lid' /> : null
                 }
                 {
                   filters.map((i, idx) => <th key={idx}>{i}</th>)
                 }
                 {
-                  listActions ? <th key='0' /> : null
+                  listActions ? <th key='li' /> : null
                 }
               </tr>
             ) : null

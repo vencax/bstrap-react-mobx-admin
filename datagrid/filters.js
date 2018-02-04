@@ -1,7 +1,9 @@
 import React from 'react'
 import {observer} from 'mobx-react'
-import {DropdownButton, MenuItem, Button, InputGroup, Tooltip, OverlayTrigger} from 'react-bootstrap'
-import FilterBases from 'react-mobx-admin/components/common/datagrid/filters'
+import {
+  DropdownButton, MenuItem, Button, InputGroup, Tooltip, OverlayTrigger
+} from 'react-bootstrap'
+import FilterBases from 'react-mobx-admin/components/datagrid/filters'
 
 // dropdown with available filters
 @observer

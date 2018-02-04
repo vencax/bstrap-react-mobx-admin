@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import TextInput from 'bstrap-react-mobx-admin/input/text'
 import BoolInput from 'bstrap-react-mobx-admin/input/bool'
 import EditView from 'bstrap-react-mobx-admin/view/edit'
-import ManipStore from 'react-mobx-admin/state/data_manip'
+import ManipStore from 'react-mobx-admin/store/manip'
 
 const TagEditForm = ({store, __}) => {
   const record = store.record

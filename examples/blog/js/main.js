@@ -5,7 +5,7 @@ import DevTools from 'mobx-react-devtools'
 import views from './routeconfig'
 
 // use it to create the app state
-import StateStore from 'react-mobx-admin/examples/blog/js/state'
+import StateStore from 'react-mobx-admin/examples/blog/js/store'
 const store = new StateStore(views)
 startRouter(views, store)
 
