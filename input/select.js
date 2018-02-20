@@ -1,11 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
-import { FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap'
+import {observer} from 'mobx-react'
+import {FormGroup, ControlLabel, FormControl, HelpBlock} from 'react-bootstrap'
 
 const SelectInput = ({
   attr, labelattr, valueattr, label, record,
-  options, optionsrecord, optionsattr, errors, onChange, ...rest
+  options, optionsrecord, optionsattr, errors, onChange,
+  showError = true, ...rest
 }) => {
   //
   const errorText = errors ? errors.get(attr) : undefined
@@ -44,7 +45,7 @@ const SelectInput = ({
         value={value || ''} onChange={handleChange}>
         {renderedOpts}
       </FormControl>
-      {errorText ? <HelpBlock>{errorText}</HelpBlock> : null}
+      {showError && errorText ? <HelpBlock>{errorText}</HelpBlock> : null}
     </FormGroup>
   )
 }

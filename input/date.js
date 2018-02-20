@@ -2,21 +2,21 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import DatePicker from 'react-bootstrap-date-picker'
-import { FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap'
+import {FormGroup, ControlLabel, HelpBlock} from 'react-bootstrap'
 
-const BStrapDateInput = ({attr, label, record, onChange, errors, ...rest}) => {
+const BStrapDateInput = ({
+  attr, label, record, onChange, errors, showError = true, ...rest
+}) => {
   //
-  function handleChange (value) {
-    onChange(attr, value)
-  }
-
   const errorText = errors ? errors.get(attr) : undefined
 
   return (
     <FormGroup validationState={errorText ? 'error' : 'success'}>
       <ControlLabel>{label}</ControlLabel>
-      <DatePicker value={record.get(attr)} onChange={handleChange} {...rest} />
-      {errorText ? <HelpBlock>{errorText}</HelpBlock> : null}
+      <DatePicker value={record.get(attr)} onChange={(value) => {
+        onChange(attr, value)
+      }} {...rest} />
+      {showError && errorText ? <HelpBlock>{errorText}</HelpBlock> : null}
     </FormGroup>
   )
 }

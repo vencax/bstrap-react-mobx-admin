@@ -20,7 +20,8 @@ const PostEditForm = ({store, options, __}) => {
     <div className='row'>
       <div className='col-xs-12 col-sm-12 col-md-6 col-lg-6'>
         <TextInput label={__('title')} attr={'title'} record={record}
-          onChange={updateField} errors={errors} disabled={disabled} />
+          onChange={updateField} errors={errors} disabled={disabled}
+          showError={false} />
         <SelectInput label={__('Category')} attr={'category'} record={record}
           optionsrecord={options}
           optionsattr={'categories'}
