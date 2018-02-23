@@ -11,7 +11,7 @@ const SelectInput = ({
   //
   const errorText = errors ? errors.get(attr) : undefined
   const validationState = errorText ? 'error' : 'success'
-  const value = record.get(attr)
+  const value = record.has(attr) ? record.get(attr) : ''
   options = options || optionsrecord.get(optionsattr || attr)
   valueattr = valueattr || 'value'
 
@@ -42,7 +42,7 @@ const SelectInput = ({
     <FormGroup controlId={attr} validationState={validationState}>
       <ControlLabel>{label}</ControlLabel>
       <FormControl componentClass='select' placeholder='select' {...rest}
-        value={value || ''} onChange={handleChange}>
+        value={value} onChange={handleChange}>
         {renderedOpts}
       </FormControl>
       {showError && errorText ? <HelpBlock>{errorText}</HelpBlock> : null}
