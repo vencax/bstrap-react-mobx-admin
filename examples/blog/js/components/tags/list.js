@@ -8,19 +8,18 @@ import ListView from 'bstrap-react-mobx-admin/view/list'
 
 const TagListView = ({store}) => {
   //
-  const batchActions = () => {
-    function _batchDelete () {
-      if (confirm(`Are you sure you want to delete selected tags?`)) {
-        store.cv.deleteSelected()
+  const listActions = (row) => {
+    function _deleteRow (row) {
+      if (confirm(`Are you sure you want to delete ${row.title}?`)) {
+        store.cv.deleteData([row])
       }
     }
-    return (
-      <DropdownButton title='actions' id='bg-nested-dropdown'>
-        <MenuItem eventKey='1' onClick={() => _batchDelete()}>delete</MenuItem>
-      </DropdownButton>
-    )
+    return row ? (
+      <div>
+        <Button onClick={(e) => _deleteRow(row)}>delete</Button>
+      </div>
+    ) : null
   }
-
   const listActionDelete = (row) => <Button onClick={() => alert(row)} />
 
   const fields = [
@@ -36,9 +35,8 @@ const TagListView = ({store}) => {
 
   return (
     <ListView store={store.cv} fields={fields}
-      batchActions={batchActions}
       onAddClicked={store.addClicked.bind(store)}
-      listActionDelete={listActionDelete} />
+      listActionDelete={listActionDelete} listActions={listActions} />
   )
 }
 

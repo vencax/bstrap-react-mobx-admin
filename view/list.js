@@ -9,15 +9,14 @@ import { observer } from 'mobx-react'
 import { DropdownButton, MenuItem, Button, ButtonGroup } from 'react-bootstrap'
 
 const BStrapListView = ({
-  store, onAddClicked, fields, filters, listActions, batchActions, renderOuter, perPageOptions
+  store, onAddClicked, fields, filters, listActions, batchActions
 }) => {
   //
   const nbPages = parseInt(store.totalItems)
   filters = filters && filters.call ? filters() : filters
   const perPageTitle = store.router.queryParams._perPage || ''
-  perPageOptions = perPageOptions || [5, 10, 15, 20, 50, 100]
 
-  function onSelectionChange (selection) {
+  const onSelectionChange = batchActions ? (selection) => {
     if (selection === 'all') {
       store.selectAll()
     } else if (selection.length === 0) {
@@ -26,7 +25,7 @@ const BStrapListView = ({
       // so toggle the selection of da index
       store.toggleIndex(selection)
     }
-  }
+  } : undefined
 
   function isSelected (idx) {
     return store.selection.indexOf(idx) >= 0
@@ -43,7 +42,7 @@ const BStrapListView = ({
     <DropdownButton className='per-page-select' title={perPageTitle} dropup
       id='dropdown' onSelect={(num) => store.setPerPage(num)}>
       {
-        perPageOptions.map((i) => {
+        store.perPageOptions.map((i) => {
           return <MenuItem eventKey={i} key={i}>{i}</MenuItem>
         })
       }
@@ -55,7 +54,7 @@ const BStrapListView = ({
         <ButtonGroup>
           <Pagination.Pagination store={store} onChange={store.updatePage.bind(store)} />
         </ButtonGroup>
-        {nbPages > 5 && perPageRender}
+        {perPageRender}
       </div>
       <div className='pull-left'>
         <div><Pagination.PageInfo info={store} query={store.router.queryParams} /></div>
@@ -64,7 +63,7 @@ const BStrapListView = ({
   )
   const filterRow = filters ? Filters.FilterRow(filters, store) : null
 
-  const result = (
+  return (
     <div className='card'>
       <div className='card-block'>
         <div className='pull-right'>
@@ -94,18 +93,14 @@ const BStrapListView = ({
       { pagination }
     </div>
   )
-
-  return renderOuter ? renderOuter(result) : result
 }
 
 BStrapListView.propTypes = {
   store: PropTypes.instanceOf(ListStore).isRequired,
-  renderOuter: PropTypes.func,
   onAddClicked: PropTypes.func,
   fields: PropTypes.arrayOf(PropTypes.func).isRequired,
   filters: PropTypes.object,
   listActions: PropTypes.func,
-  batchActions: PropTypes.func,
-  perPageOptions: PropTypes.arrayOf(PropTypes.number)
+  batchActions: PropTypes.func
 }
 export default observer(BStrapListView)

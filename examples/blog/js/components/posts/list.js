@@ -40,20 +40,6 @@ const PostListView = ({store}) => {
     )
   }
 
-  const listActions = (row) => {
-    function _deleteRow (row) {
-      if (confirm(`Are you sure you want to delete ${row.title}?`)) {
-        store.cv.deleteData([row])
-      }
-    }
-    return row ? (
-      <div>
-        <Button onClick={(e) => _deleteRow(row)}>delete</Button>
-      </div>
-    ) : null
-  }
-  const listActionDelete = (row) => <Button onClick={() => alert(row)} />
-
   // const _tagComponent = ({value, ...rest}) => {
   //   return <TagField key={value.id} attr={'a'} val={value.name}
   //     optionsrecord={store.options} optionsattr={'tags'}
@@ -93,7 +79,6 @@ const PostListView = ({store}) => {
 
   return (
     <ListView store={store.cv} fields={fields}
-      listActions={listActions}
       filters={filters}
       batchActions={batchActions} onAddClicked={store.addClicked.bind(store)} />
   )
