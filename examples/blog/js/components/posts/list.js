@@ -5,13 +5,12 @@ import { DropdownButton, MenuItem, Button } from 'react-bootstrap'
 
 import OptionsField from 'react-mobx-admin/components/field/opts'
 import MultivalueField from 'react-mobx-admin/components/field/multivalue'
-import TextField from 'react-mobx-admin/components/field/text'
 import DateField from 'react-mobx-admin/components/field/date'
 
-import TextInput from 'bstrap-react-mobx-admin/input/text'  // for filters
+import TextInput from 'bstrap-react-mobx-admin/input/text'
 import SelectInput from 'bstrap-react-mobx-admin/input/select'
-
 import ListView from 'bstrap-react-mobx-admin/view/list'
+
 
 const PostListView = ({store}) => {
   //
@@ -40,27 +39,25 @@ const PostListView = ({store}) => {
     )
   }
 
-  // const _tagComponent = ({value, ...rest}) => {
-  //   return <TagField key={value.id} attr={'a'} val={value.name}
-  //     optionsrecord={store.options} optionsattr={'tags'}
-  //     labelattr={'name'} valueattr={'id'} />
-  // }
+  const DetailLink = ({val, row}) => (
+    <a href='javascript:void(0)' onClick={() => store.detailClicked(row)}>{val}</a>
+  )
 
-  const fields = [
-    (attr, row) => (<TextField attr={attr} val={row[attr]} />),
-    (attr, row) => {
-      const DetailLink = ({text}) => (
-        <a href='javascript:void(0)' onClick={() => store.detailClicked(row)}>{text}</a>
+  function fieldCreator (attr, row) {
+    const val = row[attr]
+    switch (attr) {
+      case 'title': return <DetailLink row={row} val={val} />
+      case 'category': return (
+        <OptionsField attr={attr} val={row[attr]}
+          options={store.options.get('categories')} />
       )
-      return <TextField attr={attr} val={row[attr]} Component={DetailLink} />
-    },
-    (attr, row) => (
-      <OptionsField attr={attr} val={row[attr]} options={store.options.get('categories')} />
-    ),
-    (attr, row) => (<DateField attr={attr} val={row[attr]} />),
-    (attr, row) => (<DateField attr={attr} val={row[attr]} />),
-    (attr, row) => (<div><MultivalueField val={row[attr]} Item={_tagOptionComponent} /></div>)
-  ]
+      case ['published_at', 'unpublished_at']: return <DateField attr={attr} val={val} />
+      case 'tags': return (
+        <div><MultivalueField val={row[attr]} Item={_tagOptionComponent} /></div>
+      )
+      default: return val
+    }
+  }
 
   const filters = {
     'category': {
@@ -77,10 +74,18 @@ const PostListView = ({store}) => {
     }
   }
 
+  function headerCreator (attr) {
+    return <b>{store.cv.headertitles(attr)}</b>
+  }
+
   return (
-    <ListView store={store.cv} fields={fields}
+    <ListView store={store.cv}
       filters={filters}
-      batchActions={batchActions} onAddClicked={store.addClicked.bind(store)} />
+      headerCreator={headerCreator} fieldCreator={fieldCreator}
+      batchActions={batchActions} onAddClicked={store.addClicked.bind(store)}
+      options={{
+        emptyComponent: () => <b>Nothing found :(</b>
+      }} />
   )
 }
 

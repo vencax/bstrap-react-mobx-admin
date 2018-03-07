@@ -1,8 +1,7 @@
-/* global confirm */
+/* global confirm, alert */
 import React from 'react'
-import { DropdownButton, MenuItem, Button } from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 
-import TextField from 'react-mobx-admin/components/field/text'
 import BoolField from 'bstrap-react-mobx-admin/field/bool'
 import ListView from 'bstrap-react-mobx-admin/view/list'
 
@@ -22,19 +21,21 @@ const TagListView = ({store}) => {
   }
   const listActionDelete = (row) => <Button onClick={() => alert(row)} />
 
-  const fields = [
-    (attr, row) => (<TextField attr={attr} val={row[attr]} />),
-    (attr, row) => {
-      const DetailLink = ({text}) => (
-        <a href='javascript:void(0)' onClick={() => store.detailClicked(row)}>{text}</a>
-      )
-      return <TextField attr={attr} val={row[attr]} Component={DetailLink} />
-    },
-    (attr, row) => (<BoolField attr={attr} val={row[attr]} />)
-  ]
+  const DetailLink = ({val, row}) => (
+    <a href='javascript:void(0)' onClick={() => store.detailClicked(row)}>{val}</a>
+  )
+
+  function fieldCreator (attr, row) {
+    const val = row[attr]
+    switch (attr) {
+      case 'name': return <DetailLink row={row} val={val} />
+      case 'published': return <BoolField attr={attr} val={val} />
+      default: return val
+    }
+  }
 
   return (
-    <ListView store={store.cv} fields={fields}
+    <ListView store={store.cv} fieldCreator={fieldCreator}
       onAddClicked={store.addClicked.bind(store)}
       listActionDelete={listActionDelete} listActions={listActions} />
   )

@@ -9,11 +9,12 @@ import { observer } from 'mobx-react'
 import { DropdownButton, MenuItem, Button, ButtonGroup } from 'react-bootstrap'
 
 const BStrapListView = ({
-  store, onAddClicked, fields, filters, listActions, batchActions
+  store, onAddClicked, headerCreator, fieldCreator,
+  filters, listActions, batchActions, options = {}
 }) => {
   //
-  const nbPages = parseInt(store.totalItems)
   filters = filters && filters.call ? filters() : filters
+  headerCreator = headerCreator || store.headerCreator.bind(store)
   const perPageTitle = store.router.queryParams._perPage || ''
 
   const onSelectionChange = batchActions ? (selection) => {
@@ -31,7 +32,8 @@ const BStrapListView = ({
     return store.selection.indexOf(idx) >= 0
   }
 
-  const allSelected = store.selection.length > 0 && store.selection.length === store.items.length
+  const allSelected = store.selection.length > 0 &&
+    store.selection.length === store.items.length
 
   const filtersRender = (filters && store.state === 'ready') ? (
     <Filters.Controls state={store}
@@ -62,6 +64,7 @@ const BStrapListView = ({
     </div>
   )
   const filterRow = filters ? Filters.FilterRow(filters, store) : null
+  const title = options.title ? options.title() : null
 
   return (
     <div className='card'>
@@ -69,26 +72,40 @@ const BStrapListView = ({
         <div className='pull-right'>
           <ButtonGroup>
             <Filters.Apply state={store} label={'apply filters'} apply={store.applyFilters.bind(store)} />
-            {batchActions && (<DatagridActions state={store} actions={batchActions} />)}
-            {filters && (
-              <Filters.Dropdown state={store} title='addfilter' filters={filters}
-                showFilter={store.showFilter.bind(store)} />
-            )}
-            {onAddClicked && <Button bsStyle='primary' onClick={() => onAddClicked(store)}>{store.addText || '+'}</Button>}
+            {
+              batchActions ? (
+                <DatagridActions state={store} actions={batchActions} />
+              ) : null
+            }
+            {
+              filters ? (
+                <Filters.Dropdown state={store} title='addfilter' filters={filters}
+                  showFilter={store.showFilter.bind(store)} />
+              ) : null
+            }
+            {
+              onAddClicked ? (
+                <Button bsStyle='primary' onClick={() => onAddClicked(store)}>
+                  {options.addText ? options.addText() : '+ add new'}
+                </Button>
+              ) : null
+            }
           </ButtonGroup>
         </div>
-        {store.title ? <h4 className='card-title'>{store.title}</h4> : null}
+        {title ? <h4 className='card-title'>{title}</h4> : null}
       </div>
       { filtersRender }
       <div className='card-block'>
         <Datagrid state={store} attrs={store.attrs}
-          titles={store.headertitles} fields={fields}
+          headerCreator={headerCreator} fieldCreator={fieldCreator}
           rowId={(row) => row[store.pkName]}
           listActions={listActions}
-          onSort={store.updateSort.bind(store)} sortstate={store.router.queryParams}
+          onSort={store.updateSort.bind(store)}
+          sortstate={store.router.queryParams}
           noSort={store.noSort}
           onRowSelection={onSelectionChange} isSelected={isSelected}
-          allSelected={allSelected} filters={filterRow} />
+          allSelected={allSelected} filters={filterRow}
+          options={options} />
       </div>
       { pagination }
     </div>
@@ -98,9 +115,11 @@ const BStrapListView = ({
 BStrapListView.propTypes = {
   store: PropTypes.instanceOf(ListStore).isRequired,
   onAddClicked: PropTypes.func,
-  fields: PropTypes.arrayOf(PropTypes.func).isRequired,
+  headerCreator: PropTypes.func,
+  fieldCreator: PropTypes.func.isRequired,
   filters: PropTypes.object,
   listActions: PropTypes.func,
-  batchActions: PropTypes.func
+  batchActions: PropTypes.func,
+  options: PropTypes.object
 }
 export default observer(BStrapListView)

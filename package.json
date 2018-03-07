@@ -1,6 +1,6 @@
 {
   "name": "bstrap-react-mobx-admin",
-  "version": "1.4.0",
+  "version": "2.5.0",
   "description": "bootstrap components for react-mobx-admin",
   "main": "index.js",
   "keywords": [
@@ -16,7 +16,7 @@
       "email": "adam@bluesky.pro"
     }
   ],
-  "repository": "https://github.com/blueskydigital/bstrap-react-mobx-admin",
+  "repository": "https://github.com/vencax/bstrap-react-mobx-admin",
   "license": "ISC",
   "peerDependencies": {
     "axios": "^0.14.0",
