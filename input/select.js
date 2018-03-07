@@ -11,7 +11,7 @@ const SelectInput = ({
   //
   const errorText = errors ? errors.get(attr) : undefined
   const validationState = errorText ? 'error' : 'success'
-  const value = record.has(attr) ? record.get(attr) : ''
+  const value = record.get(attr) || ''
   options = options || optionsrecord.get(optionsattr || attr)
   valueattr = valueattr || 'value'
 

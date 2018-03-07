@@ -10,7 +10,7 @@ const TextInput = ({
   //
   const errorText = errors ? errors.get(attr) : undefined
   const validationState = errorText ? 'error' : (validationSuccess ? 'success' : null)
-  let value = record.get(attr)
+  let value = record.get(attr) || ''
 
   return (
     <FormGroup controlId={attr} validationState={validationState}>
