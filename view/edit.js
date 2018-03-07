@@ -29,7 +29,7 @@ const GlobalErrors = observer(({errors}) => {
     store: PropTypes.instanceOf(ManipStore).isRequired,
     onSave: PropTypes.func,
     onReturn2list: PropTypes.func,
-    buttonOnTop: PropTypes.bool
+    options: PropTypes.object
   }
 
   constructor (props) {
@@ -73,21 +73,23 @@ const GlobalErrors = observer(({errors}) => {
     e.onKeyDownActions && e.preventDefault() && e.stopPropagation()
   }
 
-  render({store, onSave, onReturn2list, children, buttonOnTop} = this.props) {
+  render({store, onSave, onReturn2list, children, options = {}} = this.props) {
 
     const loading = store.state === 'loading' || store.state === 'saving'
     onSave = onSave || store.save.bind(store)
-    buttonOnTop = buttonOnTop !== undefined ? buttonOnTop : true
+    const buttonsOnTop = options.buttonsOnTop !== undefined ? options.buttonsOnTop : true
 
-    if(loading) {
-      return <span className='is-loading'>loading</span>
+    if (loading) {
+      return options.loadingComponent || (
+        <span className='is-loading'>loading</span>
+      )
     }
 
-    const title = store.origRecordId ?
-      (store.edittitle || 'edit item') :
-      (store.createtitle || 'create new item')
-    const saveText = store.saveText || 'SAVE'
-    const cancelText = store.cancelText || 'cancel'
+    const title = store.isBeingCreated() ?
+      (options.editTitle ? options.editTitle() : 'edit item') :
+      (options.createTitle ? options.createTitle() : 'create new item')
+    const saveText = options.saveText ? options.saveText() : 'SAVE'
+    const cancelText = options.cancelText ? options.cancelText() : 'cancel'
     const saveEnabled = () => store.isSaveEnabled()
 
     const actionButtons = (
@@ -97,9 +99,13 @@ const GlobalErrors = observer(({errors}) => {
         </SubmitButton>
         {
           onReturn2list ? (
-            <SubmitButton onSubmit={()=>onSave().then(()=>onReturn2list())}
+            <SubmitButton onSubmit={() => onSave().then(() => onReturn2list())}
               errors={store.errors} enabled={saveEnabled}>
-              {store.saveAndReturnText || 'SAVE and return'}
+              {
+                options.saveAndReturnText
+                  ? options.saveAndReturnText()
+                  : 'SAVE and return'
+              }
             </SubmitButton>
           ) : null
         }
@@ -117,7 +123,7 @@ const GlobalErrors = observer(({errors}) => {
       <div className='card'>
         <div className='card-block'>
           <h4 className='card-title'>{title}</h4>
-          { buttonOnTop ? actionButtons : null }
+          { buttonsOnTop ? actionButtons : null }
         </div>
 
         <div className='card-block'>
