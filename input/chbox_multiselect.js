@@ -22,7 +22,9 @@ const ChBoxSelect = ({
       onChange(attr, newval.length > 0 ? newval.join(',') : null)
     }
     return (
-      <Checkbox key={idx} checked={checked(i.value)} onChange={onClick} inline>
+      <Checkbox key={idx} checked={checked(i.value)}
+        disabled={disabled}
+        onChange={onClick} inline>
         {i.label}
       </Checkbox>
     )

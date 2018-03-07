@@ -6,7 +6,7 @@ import {Radio, FormGroup, ControlLabel, HelpBlock} from 'react-bootstrap'
 const OptionSelect = ({
   attr, record, onChange, errors, label, disabled, options
 }) => {
-  const val = record.get(attr).toString()
+  const val = record.get(attr) ? record.get(attr).toString() : null
   const errorText = errors.has(attr) ? errors.get(attr) : undefined
   const validationState = errorText ? 'error' : null
 
