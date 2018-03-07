@@ -6,7 +6,7 @@ import {Radio, FormGroup, ControlLabel, HelpBlock} from 'react-bootstrap'
 const OptionSelect = ({
   attr, record, onChange, errors, label, disabled, options
 }) => {
-  const val = record.get(attr)
+  const val = record.get(attr).toString()
   const errorText = errors.has(attr) ? errors.get(attr) : undefined
   const validationState = errorText ? 'error' : null
 
@@ -19,7 +19,9 @@ const OptionSelect = ({
             return (
               <Radio key={idx} name={attr} checked={val === i.value}
                 disabled={disabled} inline
-                onClick={() => onChange(attr, i.value)}>
+                onChange={() => {
+                  onChange(attr, i.value)
+                }}>
                 {i.label}
               </Radio>
             )
