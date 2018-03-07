@@ -3,11 +3,10 @@ import {observer} from 'mobx-react'
 import PropTypes from 'prop-types'
 import ManipStore from 'react-mobx-admin/store/manip'
 
-const _SubmitButton = ({ errors, onSubmit, hasChanged, children, ...rest }) => {
-  const disabled = errors.size > 0 || (hasChanged && !hasChanged())
+const _SubmitButton = ({ errors, onSubmit, enabled, children, ...rest }) => {
   return errors ? (
     <button type='button' className='btn btn-primary' {...rest}
-      disabled={disabled} onClick={onSubmit}>{children}</button>
+      disabled={!enabled()} onClick={onSubmit}>{children}</button>
   ) : null
 }
 const SubmitButton = observer(_SubmitButton)
@@ -89,17 +88,17 @@ const GlobalErrors = observer(({errors}) => {
       (store.createtitle || 'create new item')
     const saveText = store.saveText || 'SAVE'
     const cancelText = store.cancelText || 'cancel'
-    const hasChanged = ()=>(store.isEntityChanged)
+    const saveEnabled = () => store.isSaveEnabled()
 
     const actionButtons = (
       <div className='btn-group' role='group'>
-        <SubmitButton onSubmit={onSave} errors={store.errors} hasChanged={hasChanged}>
+        <SubmitButton onSubmit={onSave} errors={store.errors} enabled={saveEnabled}>
           {saveText}
         </SubmitButton>
         {
           onReturn2list ? (
             <SubmitButton onSubmit={()=>onSave().then(()=>onReturn2list())}
-              errors={store.errors} hasChanged={hasChanged}>
+              errors={store.errors} enabled={saveEnabled}>
               {store.saveAndReturnText || 'SAVE and return'}
             </SubmitButton>
           ) : null
