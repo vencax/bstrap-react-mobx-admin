@@ -4,40 +4,30 @@ import {observer} from 'mobx-react'
 import {FormGroup, ControlLabel, FormControl, HelpBlock} from 'react-bootstrap'
 
 const SelectInput = ({
-  attr, labelattr, valueattr, label, record,
-  options, optionsrecord, optionsattr, errors, onChange,
-  showError = true, ...rest
+  attr, label, record, options,
+  extractOpt = (i) => i,
+  errors, onChange,
+  showError = true, allowEmpty = true, ...rest
 }) => {
   //
   const errorText = errors ? errors.get(attr) : undefined
   const validationState = errorText ? 'error' : 'success'
   const value = record.get(attr) || ''
-  options = options || optionsrecord.get(optionsattr || attr)
-  valueattr = valueattr || 'value'
 
   function handleChange (evt) {
     if (evt.target.value.length === 0) {
       return onChange(attr, null)
     }
-    const foundOpt = options
-      .find((i) => i[valueattr].toString() === evt.target.value)
-    onChange(attr, foundOpt[valueattr])
+    const foundOpt = options.find(i => extractOpt(i).value === evt.target.value)
+    onChange(attr, extractOpt(foundOpt).value)
   }
 
-  function renderOptions (options, labelattr, valueattr) {
-    let opts = [<option key={'_null__'} value={''} />]
-    let idx, val, c
-    for (idx = 0; idx < options.length; idx++) {
-      val = options[idx]
-      const text = (typeof labelattr === 'function') ? labelattr(val) : val[labelattr]
-      c = <option key={idx} value={val[valueattr]}>{text}</option>
-      opts.push(c)
-    }
-    return opts
-  }
+  const renderedOpts = options ? options.map((i, idx) => {
+    const info = extractOpt(i)
+    return <option key={idx} value={info.value}>{info.label}</option>
+  }) : []
+  allowEmpty && renderedOpts.unshift(<option key={'_null__'} value={''} />)
 
-  const renderedOpts = options && options.length &&
-    renderOptions(options, labelattr || 'label', valueattr)
   return (
     <FormGroup controlId={attr} validationState={validationState}>
       <ControlLabel>{label}</ControlLabel>
@@ -53,15 +43,11 @@ const SelectInput = ({
 SelectInput.propTypes = {
   attr: PropTypes.string.isRequired,
   record: PropTypes.object.isRequired,
-  labelattr: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func
-  ]),
-  valueattr: PropTypes.string,
-  label: PropTypes.string,
+  options: PropTypes.array.isRequired,
   onChange: PropTypes.func.isRequired,
-  optionsrecord: PropTypes.object.isRequired,
-  optionsattr: PropTypes.string,
+  extractOpt: PropTypes.func,
+  allowEmpty: PropTypes.bool,
+  label: PropTypes.string,
   errors: PropTypes.object
 }
 

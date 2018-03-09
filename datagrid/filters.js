@@ -6,74 +6,67 @@ import {
 import FilterBases from 'react-mobx-admin/components/datagrid/filters'
 
 // dropdown with available filters
-@observer
-class Dropdown extends FilterBases.DropdownBase {
-
-  renderItem(name, text, icon, onClick) {
-    return (
-      <MenuItem key={name} eventKey={name} onClick={onClick}>{text}</MenuItem>
-    )
-  }
-
-  renderMenu(state, filters) {
-    return (
-      <DropdownButton title="filters" pullRight id="bg-nested-dropdown">
-        {this.createItems(state, filters)}
-      </DropdownButton>
-    )
-  }
-
+const Dropdown = ({store, filters}) => {
+  return (
+    <DropdownButton title='filters' pullRight id='bg-nested-dropdown'>
+      {
+        filters.map((i, idx) => (
+          <MenuItem key={i.attr} eventKey={idx} onClick={() => store.showFilter()}>
+            {i.title()}
+          </MenuItem>
+        ))
+      }
+    </DropdownButton>
+  )
 }
 
 const styles = {
   chip: {
-    margin: 4,
+    margin: 4
   },
   wrapper: {
     display: 'flex',
-    flexWrap: 'wrap',
+    flexWrap: 'wrap'
   }
 }
 
 // controls to set filter values
-@observer
-class Controls extends FilterBases.ControlsBase {
-
-  renderControl(filter, name, state, onHide, onUpdateValue) {
-
-    const toolTip = (
-      <Tooltip id="tooltip"><strong>{filter.info}</strong></Tooltip>
-    )
-
-    return (
-      <div className={`form-field form-group filter-${name}`} style={styles.chip} key={name}>
-        <OverlayTrigger placement="right" overlay={toolTip}>
-          <strong>{filter.title || name}</strong>
-        </OverlayTrigger>
-        <InputGroup>
-          <Button onClick={onHide} style={{float: 'left'}}>x</Button>
-          <div style={{float: 'right'}}>
-            <filter.component record={state.filters} attr={name} onChange={onUpdateValue}
-              onKeyPress={(e) => {
-                if (e.charCode === 13) {
-                  e.preventDefault()
-                  state.applyFilters()
-                }
-              }} />
-          </div>
-        </InputGroup>
-      </div>
-    )
-  }
-
-  renderControls(controls, apply) {
-    return (
-      <div style={styles.wrapper}>
-        {controls}
-      </div>
-    )
-  }
-
+const Controls = ({filters, store}) => {
+  return null
+  return (
+    <ul>
+      {
+        filters().map((i, idx) => {
+          const {Component, title, ...rest} = i
+          return (
+            <div key={idx}>
+              <span>{title()}</span>
+              <Component record={store.filters} store={store} {...rest} />
+            </div>
+          )
+        })
+      }
+    </ul>
+  )
+  // return (
+  //   <div className={`form-field form-group filter-${name}`} style={styles.chip} key={name}>
+  //     <OverlayTrigger placement="right" overlay={toolTip}>
+  //       <strong>{filter.title || name}</strong>
+  //     </OverlayTrigger>
+  //     <InputGroup>
+  //       <Button onClick={onHide} style={{float: 'left'}}>x</Button>
+  //       <div style={{float: 'right'}}>
+  //         <filter.component record={state.filters} attr={name} onChange={onUpdateValue}
+  //           onKeyPress={(e) => {
+  //             if (e.charCode === 13) {
+  //               e.preventDefault()
+  //               state.applyFilters()
+  //             }
+  //           }} />
+  //       </div>
+  //     </InputGroup>
+  //   </div>
+  // )
 }
 
 const Apply = observer(({ apply, label, state }) => {
@@ -82,33 +75,15 @@ const Apply = observer(({ apply, label, state }) => {
 })
 
 
-const FilterRow = (filters, store) => {
+const FilterRow = (filterCreator, store) => {
   return store.attrs.map(attr => {
-    let filtername
-    const filter = _.find(filters, (v, k) => {
-      filtername = k
-      return filtername.indexOf(attr) >= 0
-    })
-    const isApplied = filtername in store.appliedFilters
-    return filter ? (
-      <InputGroup>
-        {
-          isApplied ? (
-            <InputGroup.Button>
-              <Button onClick={() => store.hideFilter(filtername)}>x</Button>
-            </InputGroup.Button>
-          ) : null
-        }
-        <filter.component record={store.filters}
-          attr={filtername} onChange={store.updateFilterValue.bind(store)}
-          onKeyPress={(e) => {
-            if (e.charCode === 13) {
-              e.preventDefault()
-              store.applyFilters()
-            }
-          }} />
-      </InputGroup>
-    ) : null
+    const filter = filterCreator(attr)
+    if (!filter) return null
+    const {typ, Component, ...rest} = filter
+    const filtername = typ ? attr + typ : attr
+    return (
+      <Component store={store} attr={filtername} isTableFilter {...rest} />
+    )
   })
 }
 

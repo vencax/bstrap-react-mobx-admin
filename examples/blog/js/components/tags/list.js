@@ -2,6 +2,9 @@
 import React from 'react'
 import { Button } from 'react-bootstrap'
 
+import TextFilterControl from 'bstrap-react-mobx-admin/filtercontrols/text'
+import SelectFilterControl from 'bstrap-react-mobx-admin/filtercontrols/select'
+
 import BoolField from 'bstrap-react-mobx-admin/field/bool'
 import ListView from 'bstrap-react-mobx-admin/view/list'
 
@@ -34,8 +37,22 @@ const TagListView = ({store}) => {
     }
   }
 
+  function tableFilters (attr) {
+    switch (attr) {
+      case 'published': return {
+        Component: SelectFilterControl,
+        options: [
+          {label: 'published', value: 'true'},
+          {label: 'unpublished', value: 'false'}
+        ]
+      }
+      case 'name': return {typ: '_like', Component: TextFilterControl}
+    }
+  }
+
   return (
     <ListView store={store.cv} fieldCreator={fieldCreator}
+      tableFilters={tableFilters}
       onAddClicked={store.addClicked.bind(store)}
       listActionDelete={listActionDelete} listActions={listActions} />
   )

@@ -23,8 +23,7 @@ const PostEditForm = ({store, options, __}) => {
           onChange={updateField} errors={errors} disabled={disabled}
           showError={false} />
         <SelectInput label={__('Category')} attr={'category'} record={record}
-          optionsrecord={options}
-          optionsattr={'categories'}
+          options={options.categories()}
           onChange={updateField}
           errors={errors} disabled={disabled} />
         <DateInput label={__('published')} attr={'published_at'} record={record}

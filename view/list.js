@@ -10,7 +10,7 @@ import { DropdownButton, MenuItem, Button, ButtonGroup } from 'react-bootstrap'
 
 const BStrapListView = ({
   store, onAddClicked, headerCreator, fieldCreator,
-  filters, listActions, batchActions, options = {}
+  filters, tableFilters, listActions, batchActions, options = {}
 }) => {
   //
   filters = filters && filters.call ? filters() : filters
@@ -36,8 +36,7 @@ const BStrapListView = ({
     store.selection.length === store.items.length
 
   const filtersRender = (filters && store.state === 'ready') ? (
-    <Filters.Controls state={store}
-      hideFilter={store.hideFilter.bind(store)} filters={filters} />
+    <Filters.Controls filters={filters} store={store} />
   ) : null
 
   const perPageRender = (
@@ -63,7 +62,7 @@ const BStrapListView = ({
       </div>
     </div>
   )
-  const filterRow = filters ? Filters.FilterRow(filters, store) : null
+  const filterRow = tableFilters ? Filters.FilterRow(tableFilters, store) : null
   const title = options.title ? options.title() : null
 
   return (
@@ -71,7 +70,8 @@ const BStrapListView = ({
       <div className='card-block'>
         <div className='pull-right'>
           <ButtonGroup>
-            <Filters.Apply state={store} label={'apply filters'} apply={store.applyFilters.bind(store)} />
+            <Filters.Apply state={store} label={'apply filters'}
+              apply={store.applyFilters.bind(store)} />
             {
               batchActions ? (
                 <DatagridActions state={store} actions={batchActions} />
@@ -117,7 +117,8 @@ BStrapListView.propTypes = {
   onAddClicked: PropTypes.func,
   headerCreator: PropTypes.func,
   fieldCreator: PropTypes.func.isRequired,
-  filters: PropTypes.object,
+  filters: PropTypes.func,
+  tableFilters: PropTypes.func,
   listActions: PropTypes.func,
   batchActions: PropTypes.func,
   options: PropTypes.object

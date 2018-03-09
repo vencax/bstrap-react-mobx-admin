@@ -7,10 +7,9 @@ import OptionsField from 'react-mobx-admin/components/field/opts'
 import MultivalueField from 'react-mobx-admin/components/field/multivalue'
 import DateField from 'react-mobx-admin/components/field/date'
 
-import TextInput from 'bstrap-react-mobx-admin/input/text'
-import SelectInput from 'bstrap-react-mobx-admin/input/select'
+import TextFilterControl from 'bstrap-react-mobx-admin/filtercontrols/text'
+import SelectFilterControl from 'bstrap-react-mobx-admin/filtercontrols/select'
 import ListView from 'bstrap-react-mobx-admin/view/list'
-
 
 const PostListView = ({store}) => {
   //
@@ -22,7 +21,7 @@ const PostListView = ({store}) => {
       <Button style={{float: 'left'}} onClick={onClick}>{text}</Button>
     )
     return <OptionsField attr={attr} val={val}
-      options={store.options.get('tags')}
+      options={store.options.tags}
       labelattr={'name'} valueattr={'id'} Component={_tagComponent} />
   }
 
@@ -48,33 +47,34 @@ const PostListView = ({store}) => {
     switch (attr) {
       case 'title': return <DetailLink row={row} val={val} />
       case 'category': return (
-        <OptionsField attr={attr} val={row[attr]}
-          options={store.options.get('categories')} />
+        <OptionsField attr={attr} val={val} options={store.options.categories()} />
       )
       case ['published_at', 'unpublished_at']: return <DateField attr={attr} val={val} />
       case 'tags': return (
-        <div><MultivalueField val={row[attr]} Item={_tagOptionComponent} /></div>
+        <div><MultivalueField val={val} Item={_tagOptionComponent} /></div>
       )
       default: return val
     }
   }
 
-  const filters = {
-    'category': {
-      title: 'Category',
-      icon: null,
-      component: (props) => (
-        <SelectInput {...props} optionsrecord={store.options} optionsattr={'categories'} />
-      )
-    },
-    'title_like': {
-      title: 'Title',
-      icon: null,
-      component: (props) => (<TextInput {...props} />)
-    }
-  }
+  const filters = () => [{
+    title: () => 'Title',
+    attr: 'title_like',
+    Component: TextFilterControl
+  }, {
+    title: () => <i>Tags</i>,
+    attr: 'tag_in',
+    Component: SelectFilterControl,
+    options: store.options.categories()
+  }, {
+    title: () => 'Category',
+    attr: 'category',
+    component: SelectFilterControl,
+    options: store.options.categories()
+  }]
 
   function headerCreator (attr) {
+    // we just use headertitles in current view and make it bold
     return <b>{store.cv.headertitles(attr)}</b>
   }
 
