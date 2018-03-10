@@ -14,7 +14,6 @@ const BStrapHeader = ({children, sort, name, onSort}) => {
   }
   return (
     <div>
-      <div>{children}&nbsp;</div>
       {onSort && (
         <div className='sort-buttons-box'>
           <Button bsSize='xsmall' bsStyle={sort === 'ASC' ? 'primary' : 'default'} onClick={_onUpClick}>
@@ -25,6 +24,7 @@ const BStrapHeader = ({children, sort, name, onSort}) => {
           </Button>
         </div>
       )}
+      <div>{children}</div>
     </div>
   )
 }

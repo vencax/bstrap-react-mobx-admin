@@ -70,8 +70,6 @@ const BStrapListView = ({
       <div className='card-block'>
         <div className='pull-right'>
           <ButtonGroup>
-            <Filters.Apply state={store} label={'apply filters'}
-              apply={store.applyFilters.bind(store)} />
             {
               batchActions ? (
                 <DatagridActions state={store} actions={batchActions} />
@@ -79,8 +77,7 @@ const BStrapListView = ({
             }
             {
               filters ? (
-                <Filters.Dropdown state={store} title='addfilter' filters={filters}
-                  showFilter={store.showFilter.bind(store)} />
+                <Filters.Dropdown store={store} filters={filters} />
               ) : null
             }
             {
@@ -94,7 +91,9 @@ const BStrapListView = ({
         </div>
         {title ? <h4 className='card-title'>{title}</h4> : null}
       </div>
-      { filtersRender }
+      <div style={{clear: 'both'}}>
+        { filtersRender }
+      </div>
       <div className='card-block'>
         <Datagrid state={store} attrs={store.attrs}
           headerCreator={headerCreator} fieldCreator={fieldCreator}

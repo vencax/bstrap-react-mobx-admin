@@ -63,13 +63,14 @@ const PostListView = ({store}) => {
     Component: TextFilterControl
   }, {
     title: () => <i>Tags</i>,
-    attr: 'tag_in',
+    attr: 'tag_like',
     Component: SelectFilterControl,
-    options: store.options.categories()
+    options: store.options.tags,
+    extractOpt: (i) => ({value: i.id, label: i.name})
   }, {
     title: () => 'Category',
     attr: 'category',
-    component: SelectFilterControl,
+    Component: SelectFilterControl,
     options: store.options.categories()
   }]
 

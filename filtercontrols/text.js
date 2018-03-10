@@ -3,7 +3,7 @@ import {observer} from 'mobx-react'
 import PropTypes from 'prop-types'
 import {Button, InputGroup, FormControl} from 'react-bootstrap'
 
-const TextFilterControl = ({store, attr, isTableFilter = false}) => {
+const TextFilterControl = ({store, attr, isTableFilter = true}) => {
   //
   const isApplied = store.isFilterApplied(attr)
   const isChanged = store.isFilterValueChanged(attr)
@@ -18,7 +18,9 @@ const TextFilterControl = ({store, attr, isTableFilter = false}) => {
       {
         isApplied ? (
           <InputGroup.Button>
-            <Button onClick={onHide}>x</Button>
+            <Button onClick={onHide}>
+              <span className='glyphicon glyphicon-remove' />
+            </Button>
           </InputGroup.Button>
         ) : null
       }
@@ -36,7 +38,9 @@ const TextFilterControl = ({store, attr, isTableFilter = false}) => {
       {
         isTableFilter && isChanged ? (
           <InputGroup.Button>
-            <Button onClick={() => store.applyFilters()}>V</Button>
+            <Button onClick={() => store.applyFilters()}>
+              <span className='glyphicon glyphicon-ok' />
+            </Button>
           </InputGroup.Button>
         ) : null
       }

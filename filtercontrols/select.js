@@ -4,7 +4,7 @@ import { observer } from 'mobx-react'
 import {Button, InputGroup} from 'react-bootstrap'
 import SelectInput from 'bstrap-react-mobx-admin/input/select'
 
-const SelectFilterControl = ({store, attr, isTableFilter = false, ...rest}) => {
+const SelectFilterControl = ({store, attr, isTableFilter = true, ...rest}) => {
   //
   const isApplied = store.isFilterApplied(attr)
   const onHide = () => {
@@ -22,7 +22,9 @@ const SelectFilterControl = ({store, attr, isTableFilter = false, ...rest}) => {
       {
         isApplied ? (
           <InputGroup.Button>
-            <Button onClick={onHide}>x</Button>
+            <Button onClick={onHide}>
+              <span className='glyphicon glyphicon-remove' />
+            </Button>
           </InputGroup.Button>
         ) : null
       }
