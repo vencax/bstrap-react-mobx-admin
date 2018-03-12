@@ -85,9 +85,9 @@ const GlobalErrors = observer(({errors}) => {
       )
     }
 
-    const title = store.isBeingCreated() ?
-      (options.editTitle ? options.editTitle() : 'edit item') :
-      (options.createTitle ? options.createTitle() : 'create new item')
+    const title = store.isBeingCreated()
+      ? (options.createTitle ? options.createTitle() : 'create new item')
+      : (options.editTitle ? options.editTitle() : 'edit item')
     const saveText = options.saveText ? options.saveText() : 'SAVE'
     const cancelText = options.cancelText ? options.cancelText() : 'cancel'
     const saveEnabled = () => store.isSaveEnabled()
