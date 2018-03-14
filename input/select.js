@@ -12,13 +12,16 @@ const SelectInput = ({
   //
   const errorText = errors ? errors.get(attr) : undefined
   const validationState = errorText ? 'error' : 'success'
-  const value = record.get(attr) || ''
+  const value = record.has(attr) && record.get(attr) !== null ? record.get(attr).toString() : ''
 
   function handleChange (evt) {
     if (evt.target.value.length === 0) {
       return onChange(attr, null)
     }
-    const foundOpt = options.find(i => extractOpt(i).value === evt.target.value)
+    const foundOpt = options.find(i => {
+      const o = extractOpt(i)
+      return o && o.value ? o.value.toString() === evt.target.value : false
+    })
     onChange(attr, extractOpt(foundOpt).value)
   }
 

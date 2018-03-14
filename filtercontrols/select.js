@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import {Button, InputGroup} from 'react-bootstrap'
-import SelectInput from 'bstrap-react-mobx-admin/input/select'
+import SelectInput from '../input/select'
 
 const SelectFilterControl = ({store, attr, isTableFilter = true, ...rest}) => {
   //
