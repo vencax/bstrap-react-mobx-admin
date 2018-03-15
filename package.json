@@ -45,6 +45,7 @@
     "mobx-react-devtools": "^4.2.15",
     "react-addons-test-utils": "^15.3.0",
     "react-mobx-admin": "vencax/react-mobx-admin",
+    "react-bootstrap-typeahead": "^2.3.0",
     "tape": "^4.6.2",
     "webpack": "^3.3.0",
     "webpack-dev-server": "^2.5.1"

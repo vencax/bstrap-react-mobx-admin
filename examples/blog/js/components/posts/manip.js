@@ -3,7 +3,7 @@ import React from 'react'
 import { observer } from 'mobx-react'
 import DateInput from 'bstrap-react-mobx-admin/input/date'
 import TextInput from 'bstrap-react-mobx-admin/input/text'
-import SelectInput from 'bstrap-react-mobx-admin/input/select'
+import TypeaheadInput from 'bstrap-react-mobx-admin/input/typeahead'
 import EditView from 'bstrap-react-mobx-admin/view/edit'
 
 const MDPreview = observer(({state}) => {
@@ -22,10 +22,13 @@ const PostEditForm = ({store, options, __}) => {
         <TextInput label={__('title')} attr={'title'} record={record}
           onChange={updateField} errors={errors} disabled={disabled}
           showError={false} />
-        <SelectInput label={__('Category')} attr={'category'} record={record}
+        <TypeaheadInput label={__('Category')} attr={'category'} record={record}
           options={options.categories()}
           onChange={updateField}
-          errors={errors} disabled={disabled} />
+          errors={errors} disabled={disabled} emptyLabel='Nic nenalezeno'
+          renderMenuItemChildren={(option, props) => (
+            <span key={option.value}>{option.label}</span>
+          )} />
         <DateInput label={__('published')} attr={'published_at'} record={record}
           onChange={updateField} errors={errors} disabled={disabled} />
         <DateInput label={__('unpublished')} attr={'unpublished_at'} record={record}
