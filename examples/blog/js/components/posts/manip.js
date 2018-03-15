@@ -16,6 +16,9 @@ const PostEditForm = ({store, options, __}) => {
   const errors = store.errors
   const updateField = store.updateData.bind(store)
   const disabled = Number(record.get('id')) % 2 === 0
+  const typeAheadMenuRender = (option, props) => (
+    <span key={option.value}>{option.label}</span>
+  )
   return (
     <div className='row'>
       <div className='col-xs-12 col-sm-12 col-md-6 col-lg-6'>
@@ -26,9 +29,7 @@ const PostEditForm = ({store, options, __}) => {
           options={options.categories()}
           onChange={updateField}
           errors={errors} disabled={disabled} emptyLabel='Nic nenalezeno'
-          renderMenuItemChildren={(option, props) => (
-            <span key={option.value}>{option.label}</span>
-          )} />
+          renderMenuItemChildren={typeAheadMenuRender} />
         <DateInput label={__('published')} attr={'published_at'} record={record}
           onChange={updateField} errors={errors} disabled={disabled} />
         <DateInput label={__('unpublished')} attr={'unpublished_at'} record={record}
@@ -36,6 +37,11 @@ const PostEditForm = ({store, options, __}) => {
         <TextInput componentClass='textarea'
           label={__('content')} attr={'content'} record={record}
           onChange={updateField} errors={errors} disabled={disabled} />
+        <TypeaheadInput label={__('Tags')} attr={'taglist'} record={record}
+          options={options.categories()}
+          onChange={updateField} multiple
+          errors={errors} disabled={disabled} emptyLabel='Nic nenalezeno'
+          renderMenuItemChildren={typeAheadMenuRender} />
       </div>
       <div className='col-xs-12 col-md-6 col-lg-6'>
         <MDPreview state={store} />

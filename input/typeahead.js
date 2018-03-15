@@ -40,7 +40,6 @@ export default class TypeAhead extends React.Component {
           defaultSelected={selected}
           onSearch={this._handleSearch}
           onChange={this._handleChange}
-          renderMenuItemChildren={renderMenuItemChildren}
         />
         {errorText ? <HelpBlock>{errorText}</HelpBlock> : null}
       </FormGroup>
