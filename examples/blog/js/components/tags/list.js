@@ -50,11 +50,18 @@ const TagListView = ({store}) => {
     }
   }
 
+  const CustomTR = ({children, ...rest}) => (
+    <tr style={{background: '#fec'}} {...rest}>{children}</tr>
+  )
+  const CustomTD = ({children, ...rest}) => (
+    <td style={{borderBottom: '1px solid brown'}} {...rest}>{children}</td>
+  )
   return (
     <ListView store={store.cv} fieldCreator={fieldCreator}
       tableFilters={tableFilters}
       onAddClicked={store.addClicked.bind(store)}
-      listActionDelete={listActionDelete} listActions={listActions} />
+      listActionDelete={listActionDelete} listActions={listActions}
+      TRComponent={CustomTR} TDComponent={CustomTD} />
   )
 }
 

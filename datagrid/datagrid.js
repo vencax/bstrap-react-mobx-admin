@@ -41,8 +41,13 @@ BStrapHeader.propTypes = {
 const BStrapDatagrid = ({
   state, attrs, fieldCreator, headerCreator, rowId, isSelected, noSort,
   onRowSelection, onSort, sortstate, listActions, listActionDelete, allSelected,
-  filters, options = {}
+  filters, TDComponent, TRComponent, TBodyComponent, options = {}
 }) => {
+  const _renderTD = ({...rest}) => TDComponent ? (
+    <TDComponent {...rest} /> // custom
+  ) : (
+    <td {...rest} />  // or default
+  )
   function _renderHeader (name, label, sort, onSort) {
     return (
       <th key={`th_${name}`}>
@@ -56,11 +61,8 @@ const BStrapDatagrid = ({
   }
 
   function _renderCell (attr, row, rowId) {
-    return (
-      <td key={`td_${rowId}_${attr}`}>
-        {fieldCreator(attr, row)}
-      </td>
-    )
+    const content = fieldCreator(attr, row)
+    return _renderTD({key: `td_${rowId}_${attr}`, children: content})
   }
 
   function _onSelectAll (e) {
@@ -82,22 +84,20 @@ const BStrapDatagrid = ({
     <tr><td>{options.emptyComponent ? options.emptyComponent() : null}</td></tr>
   ) : state.items.map((row, rowIdx) => {
     const selected = selectable && isSelected(rowIdx)
-    return (
-      <tr selected={selected} key={rowIdx}>
-        {
-          selectable ? (
-            <td key='chbox'>
-              <Checkbox checked={selected} inline onChange={() => onRowSelection(rowIdx)} />
-            </td>
-          ) : null
-        }
-        {
-          attrs.map((attr, idx) => _renderCell(attr, row, idx))
-        }
-        {
-          listActions ? (<td key={'lst-acts'}>{listActions(row)}</td>) : null
-        }
-      </tr>
+    let cells = []
+    selectable && cells.push(_renderTD({
+      key: 'chbox',
+      children: (
+        <Checkbox checked={selected} inline onChange={() => onRowSelection(rowIdx)} />
+      )
+    }))
+    cells = cells.concat(attrs.map((attr, idx) => _renderCell(attr, row, idx)))
+    listActions && cells.push(_renderTD({key: 'lst-acts', children: listActions(row)}))
+
+    return TRComponent ? (
+      <TRComponent selected={selected} key={rowIdx}>{cells}</TRComponent>
+    ) : (
+      <tr selected={selected} key={rowIdx}>{cells}</tr>
     )
   })
 
@@ -146,7 +146,11 @@ const BStrapDatagrid = ({
           }
         </thead>
       ) : null}
-      <tbody>{tableChildren}</tbody>
+      {
+        TBodyComponent
+          ? <TBodyComponent>{tableChildren}</TBodyComponent>
+          : <tbody>{tableChildren}</tbody>
+      }
     </table>
   )
 }
