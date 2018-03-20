@@ -40,7 +40,7 @@ BStrapHeader.propTypes = {
 
 const BStrapDatagrid = ({
   state, attrs, fieldCreator, headerCreator, rowId, isSelected, noSort,
-  onRowSelection, onSort, sortstate, listActions, listActionDelete, allSelected,
+  onRowSelection, onSort, sortstate, listActions, listActionLeft, allSelected,
   filters, TDComponent, TRComponent, TBodyComponent, options = {}
 }) => {
   const _renderTD = ({...rest}) => TDComponent ? (
@@ -91,6 +91,7 @@ const BStrapDatagrid = ({
         <Checkbox checked={selected} inline onChange={() => onRowSelection(rowIdx)} />
       )
     }))
+    listActionLeft && cells.push(_renderTD({key: 'lst-acts-l', children: listActionLeft(row)}))
     cells = cells.concat(attrs.map((attr, idx) => _renderCell(attr, row, idx)))
     listActions && cells.push(_renderTD({key: 'lst-acts', children: listActions(row)}))
 
@@ -115,8 +116,8 @@ const BStrapDatagrid = ({
               ) : null
             }
             {
-              listActionDelete ? (
-                <th key={'_actions-delete'}>{ listActionDelete() }</th>
+              listActionLeft ? (
+                <th key={'_actions-left'}>{ listActionLeft() }</th>
               ) : null
             }
             {
@@ -133,7 +134,7 @@ const BStrapDatagrid = ({
                   selectable ? <th key='s' /> : null
                 }
                 {
-                  listActionDelete ? <th key='lid' /> : null
+                  listActionLeft ? <th key='lid' /> : null
                 }
                 {
                   filters.map((i, idx) => <th key={idx}>{i}</th>)

@@ -22,7 +22,9 @@ const TagListView = ({store}) => {
       </div>
     ) : null
   }
-  const listActionDelete = (row) => <Button onClick={() => alert(row)} />
+  const listActionLeft = (row) => row ? (
+    <Button onClick={() => alert(JSON.stringify(row))}>alert row</Button>
+  ) : null
 
   const DetailLink = ({val, row}) => (
     <a href='javascript:void(0)' onClick={() => store.detailClicked(row)}>{val}</a>
@@ -60,7 +62,7 @@ const TagListView = ({store}) => {
     <ListView store={store.cv} fieldCreator={fieldCreator}
       tableFilters={tableFilters}
       onAddClicked={store.addClicked.bind(store)}
-      listActionDelete={listActionDelete} listActions={listActions}
+      listActionLeft={listActionLeft} listActions={listActions}
       TRComponent={CustomTR} TDComponent={CustomTD} />
   )
 }

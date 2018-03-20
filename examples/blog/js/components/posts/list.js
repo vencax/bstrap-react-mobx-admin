@@ -4,8 +4,6 @@ import React from 'react'
 import { DropdownButton, MenuItem, Button } from 'react-bootstrap'
 
 import OptionsField from 'react-mobx-admin/components/field/opts'
-import MultivalueField from 'react-mobx-admin/components/field/multivalue'
-import DateField from 'react-mobx-admin/components/field/date'
 
 import TextFilterControl from 'bstrap-react-mobx-admin/filtercontrols/text'
 import SelectFilterControl from 'bstrap-react-mobx-admin/filtercontrols/select'
@@ -13,16 +11,24 @@ import ListView from 'bstrap-react-mobx-admin/view/list'
 
 const PostListView = ({store}) => {
   //
-  const _tagOptionComponent = ({attr, val}) => {
+  const Tags = ({attr, val}) => {
     function onClick () {
       alert('clicked tag ' + val)
     }
     const _tagComponent = ({text}) => (
-      <Button style={{float: 'left'}} onClick={onClick}>{text}</Button>
+      <Button bsSize='xs' style={{float: 'left'}} onClick={onClick}>{text}</Button>
     )
-    return <OptionsField attr={attr} val={val}
-      options={store.options.tags}
-      labelattr={'name'} valueattr={'id'} Component={_tagComponent} />
+    return (
+      <div>
+        {
+          val.map((i, idx) => <OptionsField key={idx} attr={attr} val={i}
+            options={store.options.tags}
+            extractOpt={(i) => ({label: i.name, value: i.id})}
+            Component={_tagComponent}
+          />)
+        }
+      </div>
+    )
   }
 
   const batchActions = (store) => {
@@ -49,10 +55,8 @@ const PostListView = ({store}) => {
       case 'category': return (
         <OptionsField attr={attr} val={val} options={store.options.categories()} />
       )
-      case ['published_at', 'unpublished_at']: return <DateField attr={attr} val={val} />
-      case 'tags': return (
-        <div><MultivalueField val={val} Item={_tagOptionComponent} /></div>
-      )
+      case ['published_at', 'unpublished_at']: return new Date(val)
+      case 'tags': return <Tags attr={attr} val={val} />
       default: return val
     }
   }

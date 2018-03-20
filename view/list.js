@@ -10,7 +10,7 @@ import { DropdownButton, MenuItem, Button, ButtonGroup } from 'react-bootstrap'
 
 const BStrapListView = ({
   store, onAddClicked, headerCreator, fieldCreator,
-  filters, tableFilters, listActions, batchActions, options = {}, ...rest
+  filters, tableFilters, batchActions, options = {}, ...rest
 }) => {
   //
   filters = filters && filters.call ? filters() : filters
@@ -98,7 +98,6 @@ const BStrapListView = ({
         <Datagrid state={store} attrs={store.attrs} {...rest}
           headerCreator={headerCreator} fieldCreator={fieldCreator}
           rowId={(row) => row[store.pkName]}
-          listActions={listActions}
           onSort={store.updateSort.bind(store)}
           sortstate={store.router.queryParams}
           noSort={store.noSort}
@@ -119,6 +118,7 @@ BStrapListView.propTypes = {
   filters: PropTypes.func,
   tableFilters: PropTypes.func,
   listActions: PropTypes.func,
+  listActionLeft: PropTypes.func,
   batchActions: PropTypes.func,
   options: PropTypes.object
 }
