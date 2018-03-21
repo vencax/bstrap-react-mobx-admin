@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Checkbox, Button } from 'react-bootstrap'
-import {buildHeaders} from 'react-mobx-admin/components/datagrid/table'
+import {buildTableHeaders} from 'react-mobx-admin'
 
 const BStrapHeader = ({children, sort, name, onSort}) => {
   //
@@ -121,7 +121,7 @@ const BStrapDatagrid = ({
               ) : null
             }
             {
-              buildHeaders(attrs, headerCreator, _renderHeader, onSort, sortstate, noSort)
+              buildTableHeaders(attrs, headerCreator, _renderHeader, onSort, sortstate, noSort)
             }
             {
               listActions ? (<th key={'_actions'}>{ listActions() }</th>) : null

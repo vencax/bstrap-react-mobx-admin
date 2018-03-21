@@ -1,10 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ListStore from 'react-mobx-admin/store/list'
+import {ListStore, DatagridActions} from 'react-mobx-admin'
 import Datagrid from '../datagrid/datagrid'
 import Filters from '../datagrid/filters'
 import Pagination from '../datagrid/pagination'
-import DatagridActions from 'react-mobx-admin/components/datagrid/actions'
 import { observer } from 'mobx-react'
 import { DropdownButton, MenuItem, Button, ButtonGroup } from 'react-bootstrap'
 

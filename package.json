@@ -1,13 +1,17 @@
 {
   "name": "bstrap-react-mobx-admin",
-  "version": "2.5.0",
+  "version": "2.5.1",
   "description": "bootstrap components for react-mobx-admin",
-  "main": "index.js",
+  "main": "dist/bstrap-react-mobx-admin.min.js",
+  "unpkg": "dist/bstrap-react-mobx-admin.min.js",
   "keywords": [
     "admin",
     "mobx",
     "rest",
     "bootstrap"
+  ],
+  "files": [
+    "dist"
   ],
   "author": "vencax <vencax77@gmail.com>",
   "contributors": [
@@ -19,13 +23,12 @@
   "repository": "https://github.com/vencax/bstrap-react-mobx-admin",
   "license": "ISC",
   "peerDependencies": {
-    "axios": "^0.14.0",
-    "react-bootstrap": "^0.30.10",
-    "react-datepicker": "0.40.0",
     "mobx": "^2.7.0",
     "mobx-react": "^3.5.9",
-    "mobx-router": "0.0.7",
-    "react": "^15.6.2"
+    "react": "^15.6.2",
+    "react-bootstrap": "^0.30.10",
+    "react-bootstrap-date-picker": "github:maxaggedon/react-bootstrap-date-picker",
+    "react-mobx-admin": "^2.1.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -41,22 +44,14 @@
     "babel-preset-stage-0": "^6.24.1",
     "babel-register": "^6.26.0",
     "jsdom": "^9.8.3",
-    "json-server": "^0.8.22",
-    "mobx-react-devtools": "^4.2.15",
     "react-addons-test-utils": "^15.3.0",
-    "react-mobx-admin": "vencax/react-mobx-admin",
-    "react-bootstrap-typeahead": "^2.3.0",
-    "tape": "^4.6.2",
-    "webpack": "^3.3.0",
-    "webpack-dev-server": "^2.5.1"
+    "webpack": "^3.3.0"
   },
   "scripts": {
+    "build": "./node_modules/.bin/webpack --env.prod -p",
     "test": "echo no test :/"
   },
   "dependencies": {
-    "mobx-router": "github:vencax/mobx-router",
-    "react-bootstrap": "^0.32.1",
-    "react-bootstrap-date-picker": "github:maxaggedon/react-bootstrap-date-picker",
-    "underscore": "^1.8.3"
+    "react-bootstrap-typeahead": "^2.3.0"
   }
 }
