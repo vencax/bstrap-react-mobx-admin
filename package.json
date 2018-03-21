@@ -48,8 +48,8 @@
     "webpack": "^3.3.0"
   },
   "scripts": {
-    "build": "./node_modules/.bin/webpack --env.prod -p",
-    "build:dev": "./node_modules/.bin/webpack --env.dev",
+    "build": "./node_modules/.bin/webpack --env.prod -p --display-modules",
+    "build:dev": "./node_modules/.bin/webpack --env.dev --display-modules",
     "test": "echo no test :/"
   },
   "dependencies": {
