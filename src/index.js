@@ -1,6 +1,7 @@
 import ListView from './view/list'
 import EditView from './view/edit'
 import BoolField from './field/bool'
+import OptionsField from './field/opts'
 import SelectFilterControl from './filtercontrols/select'
 import TextFilterControl from './filtercontrols/text'
 import BoolInput from './input/bool'
@@ -15,6 +16,7 @@ export {
   ListView,
   EditView,
   BoolField,  // field
+  OptionsField,
   SelectFilterControl,    // for filters
   TextFilterControl,
   BoolInput,            // inputs

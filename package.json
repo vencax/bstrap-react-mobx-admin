@@ -1,6 +1,6 @@
 {
   "name": "bstrap-react-mobx-admin",
-  "version": "2.5.1",
+  "version": "2.5.2",
   "description": "bootstrap components for react-mobx-admin",
   "main": "dist/bstrap-react-mobx-admin.min.js",
   "unpkg": "dist/bstrap-react-mobx-admin.min.js",
@@ -23,7 +23,6 @@
   "repository": "https://github.com/vencax/bstrap-react-mobx-admin",
   "license": "ISC",
   "peerDependencies": {
-    "mobx": "^2.7.0",
     "mobx-react": "^3.5.9",
     "react": "^15.6.2",
     "react-bootstrap": "^0.30.10",
