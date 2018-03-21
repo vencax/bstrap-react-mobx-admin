@@ -49,6 +49,7 @@
   },
   "scripts": {
     "build": "./node_modules/.bin/webpack --env.prod -p",
+    "build:dev": "./node_modules/.bin/webpack --env.dev",
     "test": "echo no test :/"
   },
   "dependencies": {

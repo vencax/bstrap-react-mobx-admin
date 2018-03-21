@@ -1,11 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {ListStore, DatagridActions} from 'react-mobx-admin'
+import {ListStore} from 'react-mobx-admin'
 import Datagrid from '../datagrid/datagrid'
 import Filters from '../datagrid/filters'
 import Pagination from '../datagrid/pagination'
 import { observer } from 'mobx-react'
 import { DropdownButton, MenuItem, Button, ButtonGroup } from 'react-bootstrap'
+
+const DatagridActions = observer(({actions, state}) => {
+  return (state.selection.length > 0) ? actions(state) : null
+})
 
 const BStrapListView = ({
   store, onAddClicked, headerCreator, fieldCreator,

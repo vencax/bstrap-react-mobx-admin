@@ -20,12 +20,12 @@ module.exports = (env = {dev: true}) => {
       filename: 'bstrap-react-mobx-admin.min.js'
     },
     externals: {
-      'underscore': {commonjs: 'underscore'},
-      'mobx': 'mobx',
-      'prop-types': {commonjs: 'prop-types'},
-      'mobx-react': 'mobxReact',
-      'react': 'React',
-      'react-dom': 'ReactDOM',
+      'underscore': {root: '_', commonjs: 'underscore'},
+      'mobx': {root: 'mobx', commonjs2: 'mobx', commonjs: 'mobx'},
+      'prop-types': {root: 'propTypes', commonjs: 'prop-types'},
+      'react': {root: 'React', commonjs: 'react'},
+      'react-dom': {root: 'ReactDOM', commonjs: 'react-dom'},
+      'mobx-react': {root: 'mobxReact', commonjs: 'mobx-react'},
       'react-bootstrap': {commonjs: 'react-bootstrap'},
       'react-mobx-admin': {commonjs: 'react-mobx-admin'},
       'react-bootstrap-date-picker': {commonjs: 'react-bootstrap-date-picker'}
