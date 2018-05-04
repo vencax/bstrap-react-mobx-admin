@@ -116,6 +116,7 @@ const GlobalErrors = observer(({errors}) => {
             </button>
           ) : null
         }
+        { options.customActionButtons ? options.customActionButtons : null }
       </div>
     )
 
