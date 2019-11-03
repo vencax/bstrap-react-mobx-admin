@@ -21,7 +21,7 @@ export default class TypeAhead extends React.Component {
     } = this.props
     const errorText = errors.has(attr) ? errors.get(attr) : undefined
     const validationState = errorText ? 'error' : null
-    const val = record.get(attr) || null
+    const val = record[attr] || null
     const selectedVals = multiple ? (
       val ? val.toString().split(',') : []
     ) : (

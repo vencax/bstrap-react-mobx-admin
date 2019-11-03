@@ -1,6 +1,6 @@
 {
   "name": "bstrap-react-mobx-admin",
-  "version": "2.5.2",
+  "version": "3.2.0",
   "description": "bootstrap components for react-mobx-admin",
   "main": "dist/bstrap-react-mobx-admin.min.js",
   "unpkg": "dist/bstrap-react-mobx-admin.min.js",
@@ -27,7 +27,7 @@
     "react": "^15.6.2",
     "react-bootstrap": "^0.30.10",
     "react-bootstrap-date-picker": "github:maxaggedon/react-bootstrap-date-picker",
-    "react-mobx-admin": "^2.1.0"
+    "react-mobx-admin": "^3.0.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

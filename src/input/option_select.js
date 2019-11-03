@@ -7,7 +7,7 @@ const OptionSelect = ({
   attr, record, onChange, errors, label, disabled, options,
   extractOpt = (i) => i
 }) => {
-  const val = record.get(attr) ? record.get(attr).toString() : null
+  const val = record[attr] ? record[attr].toString() : null
   const errorText = errors.has(attr) ? errors.get(attr) : undefined
   const validationState = errorText ? 'error' : null
 

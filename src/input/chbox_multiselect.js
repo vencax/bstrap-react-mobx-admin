@@ -7,7 +7,7 @@ import {FormGroup, ControlLabel, HelpBlock, Checkbox} from 'react-bootstrap'
 const ChBoxSelect = ({
   attr, record, onChange, errors, label, disabled, options
 }) => {
-  const val = record.get(attr) ? record.get(attr).toString().split(',') : []
+  const val = record[attr] ? record[attr].toString().split(',') : []
   const checked = (att) => {
     return _.indexOf(val, att) >= 0
   }

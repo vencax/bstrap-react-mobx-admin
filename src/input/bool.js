@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {observer} from 'mobx-react'
-import {Checkbox} from 'react-bootstrap'
+import { observer } from 'mobx-react'
+import { Checkbox } from 'react-bootstrap'
 
 const BStrapBoolInput = ({
   attr, label, record, onChange, valuemapping, errors, ...rest
 }) => {
   //
-  const checked = Boolean(record.get(attr))
+  const checked = Boolean(record[attr])
 
   const handleChange = (event) => {
     const newVal = !checked

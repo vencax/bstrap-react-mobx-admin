@@ -1,13 +1,47 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {observer} from 'mobx-react'
-import {paginationRange} from 'react-mobx-admin'
+import { observer } from 'mobx-react'
 
-const Pagination = observer(({store, onChange}) => {
+function paginationRange (page, perPage, total) {
+  const input = []
+  const nbPages = Math.ceil(total / perPage) || 1
+
+  // display page links around the current page
+  if (page > 2) {
+    input.push('1')
+  }
+  if (page === 4) {
+    input.push('2')
+  }
+  if (page > 4) {
+    input.push('.')
+  }
+  if (page > 1) {
+    input.push(page - 1)
+  }
+  input.push(page)
+  if (page < nbPages) {
+    input.push(page + 1)
+  }
+  if (page === (nbPages - 3)) {
+    input.push(nbPages - 1)
+  }
+  if (page < (nbPages - 3)) {
+    input.push('.')
+  }
+  if (page < (nbPages - 1)) {
+    input.push(nbPages)
+  }
+
+  return input
+}
+
+const Pagination = observer(({ store, onChange }) => {
   //
   const totalItems = store.totalItems
-  const page = store.router.queryParams ? parseInt(store.router.queryParams._page) : 1
-  const perPage = parseInt(store.router.queryParams._perPage) || 1
+  const qpars = store.routerStore.queryParams
+  const page = qpars ? parseInt(qpars._page) : 1
+  const perPage = parseInt(qpars._perPage) || 1
   const nbPages = Math.ceil(totalItems / perPage) || 1
   const offsetEnd = Math.min(page * perPage, totalItems)
   const offsetBegin = Math.min((page - 1) * perPage + 1, offsetEnd)
@@ -47,7 +81,7 @@ Pagination.propTypes = {
   onChange: PropTypes.func.isRequired
 }
 
-const PageInfo = observer(({info, query}) => {
+const PageInfo = observer(({ info, query }) => {
   const totalItems = info.totalItems
   const page = query ? parseInt(query._page) : 1
   const perPage = parseInt(query._perPage) || 1

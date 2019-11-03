@@ -13,7 +13,7 @@ const BStrapDateInput = ({
   return (
     <FormGroup validationState={errorText ? 'error' : 'success'}>
       <ControlLabel>{label}</ControlLabel>
-      <DatePicker value={record.get(attr)} onChange={(value) => {
+      <DatePicker value={record[attr]} onChange={(value) => {
         onChange(attr, value)
       }} {...rest} />
       {showError && errorText ? <HelpBlock>{errorText}</HelpBlock> : null}

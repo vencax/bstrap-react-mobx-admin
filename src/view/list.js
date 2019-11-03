@@ -16,9 +16,10 @@ const BStrapListView = ({
   filters, tableFilters, batchActions, options = {}, ...rest
 }) => {
   //
+  const qpars = store.routerStore.queryParams
   filters = filters && filters.call ? filters() : filters
   headerCreator = headerCreator || store.headerCreator.bind(store)
-  const perPageTitle = store.router.queryParams._perPage || ''
+  const perPageTitle = qpars._perPage || ''
 
   const onSelectionChange = batchActions ? (selection) => {
     if (selection === 'all') {
@@ -61,7 +62,7 @@ const BStrapListView = ({
         {perPageRender}
       </div>
       <div className='pull-left'>
-        <div><Pagination.PageInfo info={store} query={store.router.queryParams} /></div>
+        <div><Pagination.PageInfo info={store} query={qpars} /></div>
       </div>
     </div>
   )
@@ -102,7 +103,7 @@ const BStrapListView = ({
           headerCreator={headerCreator} fieldCreator={fieldCreator}
           rowId={(row) => row[store.pkName]}
           onSort={store.updateSort.bind(store)}
-          sortstate={store.router.queryParams}
+          sortstate={qpars}
           noSort={store.noSort}
           onRowSelection={onSelectionChange} isSelected={isSelected}
           allSelected={allSelected} filters={filterRow}

@@ -6,7 +6,7 @@ import {ManipStore} from 'react-mobx-admin'
 const _SubmitButton = ({ errors, onSubmit, enabled, children, ...rest }) => {
   return errors ? (
     <button type='button' className='btn btn-primary' {...rest}
-      disabled={!enabled()} onClick={onSubmit}>{children}</button>
+      disabled={!enabled} onClick={onSubmit}>{children}</button>
   ) : null
 }
 const SubmitButton = observer(_SubmitButton)
@@ -85,22 +85,21 @@ const GlobalErrors = observer(({errors}) => {
       )
     }
 
-    const title = store.isBeingCreated()
+    const title = store.isBeingCreated
       ? (options.createTitle ? options.createTitle() : 'create new item')
       : (options.editTitle ? options.editTitle() : 'edit item')
     const saveText = options.saveText ? options.saveText() : 'SAVE'
     const cancelText = options.cancelText ? options.cancelText() : 'cancel'
-    const saveEnabled = () => store.isSaveEnabled()
 
     const actionButtons = (
       <div className='btn-group' role='group'>
-        <SubmitButton onSubmit={onSave} errors={store.errors} enabled={saveEnabled}>
+        <SubmitButton onSubmit={onSave} errors={store.errors} enabled={store.isSaveEnabled}>
           {saveText}
         </SubmitButton>
         {
           onReturn2list ? (
             <SubmitButton onSubmit={() => onSave().then(() => onReturn2list())}
-              errors={store.errors} enabled={saveEnabled}>
+              errors={store.errors} enabled={store.isSaveEnabled}>
               {
                 options.saveAndReturnText
                   ? options.saveAndReturnText()

@@ -2,7 +2,25 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Checkbox, Button } from 'react-bootstrap'
-import {buildTableHeaders} from 'react-mobx-admin'
+
+export function buildTableHeaders (attrs, titles, renderHeader, onSort, sortstate, noSort = []) {
+  let headers = []
+  let i
+
+  const sortFields = sortstate._sortField ? sortstate._sortField.split(',') : []
+  const sortDirs = sortstate._sortDir ? sortstate._sortDir.split(',') : []
+  for (i = 0; i < attrs.length; i++) {
+    const attr = attrs[i]
+    const title = titles[i]
+    const sortStateIdx = sortFields.indexOf(attr)
+    const sortable = onSort && noSort.indexOf(attr) === -1
+    const sort = sortStateIdx >= 0 ? sortDirs[sortStateIdx] : null
+    const header = renderHeader(attr, title, sort, sortable ? onSort : null)
+    headers.push(header)
+  }
+
+  return headers
+}
 
 const BStrapHeader = ({children, sort, name, onSort}) => {
   //

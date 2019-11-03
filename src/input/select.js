@@ -12,8 +12,8 @@ const SelectInput = ({
   //
   const errorText = errors ? errors.get(attr) : undefined
   const validationState = errorText ? 'error' : 'success'
-  const v = record.get(attr)
-  const value = v !== null && v !== undefined ? record.get(attr).toString() : ''
+  const v = record[attr]
+  const value = v !== null && v !== undefined ? record[attr].toString() : ''
 
   function handleChange (evt) {
     if (evt.target.value.length === 0) {
