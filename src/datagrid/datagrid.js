@@ -114,7 +114,7 @@ const BStrapDatagrid = ({
     listActions && cells.push(_renderTD({key: 'lst-acts', children: listActions(row)}))
 
     return TRComponent ? (
-      <TRComponent selected={selected} key={rowIdx}>{cells}</TRComponent>
+      <TRComponent selected={selected} row={row} key={rowIdx}>{cells}</TRComponent>
     ) : (
       <tr selected={selected} key={rowIdx}>{cells}</tr>
     )
